@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Nasa"
 include(":app")
- 
+include(":core:network")
+include(":core:ui")
