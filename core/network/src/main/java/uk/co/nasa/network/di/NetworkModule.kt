@@ -28,17 +28,19 @@ interface NetworkModule {
         OkHttpClient.Builder().build()
 
     @Provides
+    @Singleton
     fun provideRetrofit(
+        json: Json,
         okhttpCallFactory: dagger.Lazy<Call.Factory>
-    ) {
-        val retrofit = Retrofit.Builder()
+    ) =
+        Retrofit.Builder()
             .baseUrl("https://example.com/")
+            // lazy injection to prevent initializing OkHttp on the main thread. See network layer readme.
             .callFactory { okhttpCallFactory.get().newCall(it) }
             .addConverterFactory(
-                Json.asConverterFactory(
+                json.asConverterFactory(
                     "application/json; charset=UTF8".toMediaType()
                 )
             )
             .build()
-    }
 }
