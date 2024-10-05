@@ -23,5 +23,5 @@ rootProject.name = "Nasa"
 include(":app")
 include(":core:network")
 include(":core:ui")
-include("feature:daily_astronomy_picture")
+include("feature:astronomy_picture_of_day")
 include(":data:astronomy_pictures")
