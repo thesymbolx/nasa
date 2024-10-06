@@ -2,6 +2,7 @@ package uk.co.nasa.apod
 
 data class ApodUiState(
     val imageUrl: String,
+    val title: String,
     val description: String
 )
 

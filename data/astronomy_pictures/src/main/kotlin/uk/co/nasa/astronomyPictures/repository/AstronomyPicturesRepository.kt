@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 interface AstronomyPicturesRepository {
     suspend fun getPictureOfTheDay(): NetworkResult<APOD>
+    suspend fun getHistoricPictureOfTheDay(date: String): NetworkResult<APOD>
 }
 
 internal class AstronomyPicturesRepositoryImpl @Inject constructor(
@@ -23,5 +24,17 @@ internal class AstronomyPicturesRepositoryImpl @Inject constructor(
             count = null,
             thumbs = null
         ).map(APODApi::toAPOD)
+
+    override suspend fun getHistoricPictureOfTheDay(date: String): NetworkResult<APOD> =
+        apodRemoteDataSource.getPictureOfTheDay(
+            date = date,
+            startDate = null,
+            endDate = null,
+            count = null,
+            thumbs = null
+        ).map(APODApi::toAPOD)
+
+
+
 }
 

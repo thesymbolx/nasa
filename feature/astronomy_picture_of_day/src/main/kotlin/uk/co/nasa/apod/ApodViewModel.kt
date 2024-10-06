@@ -39,7 +39,7 @@ class ApodViewModel @Inject constructor(
         _uiState.update {
             ApodUiScreenState.Success(
                 ApodUiState(
-                    apod.url, apod.description
+                    apod.url, apod.title, apod.description
                 )
             )
         }
