@@ -19,10 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NasaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ApodScreen()
-                    innerPadding
-                }
+                NasaApp()
             }
         }
     }
