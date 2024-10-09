@@ -1,4 +1,4 @@
-package nasa.ui.theme
+package uk.co.nasa.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color
@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import uk.co.nasa.R
+import uk.co.nasa.designsystem.R
 
 fun groteskFontFamily() = FontFamily(
     Font(R.font.clash_grotesk_light, weight = FontWeight.Light),
@@ -68,7 +68,7 @@ val Typography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = groteskFontFamily(),
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,

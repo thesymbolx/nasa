@@ -1,4 +1,4 @@
-package nasa.ui.theme
+package uk.co.nasa.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

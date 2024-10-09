@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(project(":core:network"))
     implementation(project(":feature:astronomy_picture_of_day"))
+    implementation(project(":core:designsystem"))
     kapt(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)
