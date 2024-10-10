@@ -2,11 +2,13 @@ package uk.co.nasa.apod
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import kotlinx.serialization.Serializable
 
-const val apodRoute = "apod_route"
+@Serializable
+object APODRoute
 
 fun NavGraphBuilder.apodRoute() {
-    composable(route = apodRoute) {
+    composable<APODRoute> {
         ApodScreen()
     }
 }

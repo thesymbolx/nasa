@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -64,6 +65,10 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":feature:astronomy_picture_of_day"))
     implementation(project(":core:designsystem"))
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
     kapt(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)

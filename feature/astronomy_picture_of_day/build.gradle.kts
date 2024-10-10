@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
+    id("kotlinx-serialization")
     id("kotlin-kapt")
 }
 
@@ -51,8 +52,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.coil)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
     kapt(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)
