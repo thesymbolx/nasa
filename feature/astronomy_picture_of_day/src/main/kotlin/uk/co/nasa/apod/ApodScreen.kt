@@ -3,12 +3,17 @@ package uk.co.nasa.apod
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +28,8 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
@@ -64,19 +71,10 @@ fun ApodScreen(uiState: ApodUiState) {
                 },
             model = uiState.imageUrl,
             contentDescription = null,
+            contentScale = ContentScale.FillWidth
         )
 
-        Text(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 8.dp,
-                bottom = 8.dp
-            ),
-            text = uiState.title,
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Header(title = uiState.title)
 
         Text(
             modifier = Modifier.padding(
@@ -90,6 +88,40 @@ fun ApodScreen(uiState: ApodUiState) {
             style = MaterialTheme.typography.bodyLarge
         )
 
+    }
+}
+
+@Composable
+private fun Header(
+    title: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = 8.dp
+            )
+    ) {
+        Text(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = R.drawable.share_icon),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     }
 }
 
