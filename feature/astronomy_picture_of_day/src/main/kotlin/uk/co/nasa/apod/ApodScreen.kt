@@ -1,6 +1,5 @@
 package uk.co.nasa.apod
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import uk.co.nasa.ui.LoadingScreen
+import uk.co.nasa.ui.parallaxLayoutModifier
 
 @Composable
 fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
@@ -50,8 +49,10 @@ fun ApodScreen(
     uiState: ApodUiState,
     imageLoaded: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
-        Modifier.verticalScroll(rememberScrollState())
+        Modifier.verticalScroll(scrollState)
     ) {
         SubcomposeAsyncImage(
             modifier = Modifier
@@ -65,7 +66,7 @@ fun ApodScreen(
                             1f to Color.Transparent
                         ), blendMode = BlendMode.DstIn
                     )
-                },
+                }.parallaxLayoutModifier(scrollState, 2),
             model = uiState.imageUrl,
             onSuccess = {
                 imageLoaded()
@@ -74,20 +75,23 @@ fun ApodScreen(
             contentScale = ContentScale.FillWidth
         )
 
-        Header(title = uiState.title)
+        Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+        ) {
+            Header(title = uiState.title)
 
-        Text(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 24.dp,
-                bottom = 16.dp
-            ),
-            text = uiState.description,
-            color = Color.White,
-            style = MaterialTheme.typography.bodyLarge
-        )
-
+            Text(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 24.dp,
+                    bottom = 16.dp
+                ),
+                text = uiState.description,
+                color = Color.White,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
 
