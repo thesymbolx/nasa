@@ -1,17 +1,20 @@
 package uk.co.nasa.apod
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -21,45 +24,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import coil.compose.AsyncImagePainter
-
+import coil3.compose.SubcomposeAsyncImage
+import uk.co.nasa.ui.LoadingScreen
 
 @Composable
 fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
+    val apodState = uiState.apodUiState
 
-    when (val state = uiState) {
-        ApodUiScreenState.Loading -> Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Red)
-        )
-
-        is ApodUiScreenState.Success -> ApodScreen(state.apodUiState)
+    //Overlay the loading screen on the content to allow preloading of the image to avoid jank.
+    Box {
+        if(apodState != null) ApodScreen(apodState, viewModel::contentLoaded)
+        if(uiState.isLoading) LoadingScreen()
     }
 }
 
 @Composable
-fun ApodScreen(uiState: ApodUiState) {
+fun ApodScreen(
+    uiState: ApodUiState,
+    imageLoaded: () -> Unit
+) {
     Column(
         Modifier.verticalScroll(rememberScrollState())
     ) {
-        AsyncImage(
+        SubcomposeAsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                .wrapContentHeight()
                 .drawWithContent {
                     drawContent()
                     drawRect(
@@ -70,6 +67,9 @@ fun ApodScreen(uiState: ApodUiState) {
                     )
                 },
             model = uiState.imageUrl,
+            onSuccess = {
+                imageLoaded()
+            },
             contentDescription = null,
             contentScale = ContentScale.FillWidth
         )
@@ -113,26 +113,35 @@ private fun Header(
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium
         )
+        
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+                modifier = Modifier.size(24.dp),
+                imageVector = Icons.Outlined.Share,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
 
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 modifier = Modifier.size(24.dp),
-                painter = painterResource(id = R.drawable.share_icon),
+                imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
 }
 
-@Preview
-@Composable
-fun ApodScreenPreview() {
-    ApodScreen(
-        ApodUiState(
-            imageUrl = "https://apod.nasa.gov/apod/image/2207/",
-            title = "Some title",
-            description = "this is a description"
-        )
-    )
-}
+//@Preview
+//@Composable
+//fun ApodScreenPreview() {
+//    ApodScreen(
+//        ApodUiState(
+//            imageUrl = "https://apod.nasa.gov/apod/image/2207/",
+//            title = "Some title",
+//            description = "this is a description"
+//        )
+//    )
+//}

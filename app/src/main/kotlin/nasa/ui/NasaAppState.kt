@@ -2,6 +2,7 @@ package nasa.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
@@ -58,6 +59,6 @@ data class TopLevelRoute<T : Any>(val route: T, val icon: ImageVector)
 
 val TOP_LEVEL_ROUTES = listOf(
     TopLevelRoute(route = APODRoute, icon = Icons.Default.Home),
-    TopLevelRoute(route = TAB2, icon = Icons.Default.ShoppingCart),
+    TopLevelRoute(route = TAB2, icon = Icons.Filled.Favorite),
     TopLevelRoute(route = TAB3, icon = Icons.Default.AccountCircle)
 )

@@ -19,16 +19,18 @@ class ApodViewModel @Inject constructor(
     private val astronomyPicturesRepository: AstronomyPicturesRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ApodUiScreenState>(ApodUiScreenState.Loading)
+    private val _uiState = MutableStateFlow(ApodUiScreenState())
     val uiState = _uiState
         .onStart { getPictureOfTheDay() }
         .stateIn(
             viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = ApodUiScreenState.Loading
+            initialValue = ApodUiScreenState()
         )
 
     private fun getPictureOfTheDay() = viewModelScope.launch {
+        _uiState.update { it.copy(isLoading = true) }
+
         when (val result = astronomyPicturesRepository.getPictureOfTheDay()) {
             is NetworkResult.Error -> TODO()
             is NetworkResult.Success -> showPictureOfTheDay(result.data)
@@ -37,11 +39,17 @@ class ApodViewModel @Inject constructor(
 
     private fun showPictureOfTheDay(apod: APOD) {
         _uiState.update {
-            ApodUiScreenState.Success(
-                ApodUiState(
+            it.copy(
+                apodUiState = ApodUiState(
                     apod.url, apod.title, apod.description
                 )
             )
+        }
+    }
+
+    fun contentLoaded() {
+        _uiState.update {
+            it.copy(isLoading = false)
         }
     }
 }
