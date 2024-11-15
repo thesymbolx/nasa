@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:ui"))
+    debugImplementation(libs.ui.tooling)
     kapt(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)

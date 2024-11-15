@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,12 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.material3.Text
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.LoadingScreen
 import uk.co.nasa.ui.parallaxLayoutModifier
 
@@ -39,8 +44,11 @@ fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
 
     //Overlay the loading screen on the content to allow preloading of the image to avoid jank.
     Box {
-        if(apodState != null) ApodScreen(apodState, viewModel::contentLoaded)
-        if(uiState.isLoading) LoadingScreen()
+        when {
+            apodState != null -> ApodScreen(apodState, viewModel::contentLoaded)
+            uiState.isError -> ErrorScreen()
+        }
+        if (uiState.isLoading) LoadingScreen()
     }
 }
 
@@ -58,6 +66,7 @@ fun ApodScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .parallaxLayoutModifier(scrollState, 2)
                 .drawWithContent {
                     drawContent()
                     drawRect(
@@ -66,7 +75,7 @@ fun ApodScreen(
                             1f to Color.Transparent
                         ), blendMode = BlendMode.DstIn
                     )
-                }.parallaxLayoutModifier(scrollState, 2),
+                },
             model = uiState.imageUrl,
             onSuccess = {
                 imageLoaded()
@@ -76,7 +85,14 @@ fun ApodScreen(
         )
 
         Column(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.drawBehind {
+                val gradientBrush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.Black), // Customize colors
+                    startY = 0f,
+                    endY = size.height * 0.1f // Adjust gradient height
+                )
+                drawRect(brush = gradientBrush)
+            }
         ) {
             Header(title = uiState.title)
 
@@ -91,6 +107,8 @@ fun ApodScreen(
                 color = Color.White,
                 style = MaterialTheme.typography.bodyLarge
             )
+
+            Spacer(modifier = Modifier.padding(vertical = 200.dp))
         }
     }
 }
@@ -117,7 +135,7 @@ private fun Header(
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium
         )
-        
+
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 modifier = Modifier.size(24.dp),
@@ -138,14 +156,31 @@ private fun Header(
     }
 }
 
-//@Preview
-//@Composable
-//fun ApodScreenPreview() {
-//    ApodScreen(
-//        ApodUiState(
-//            imageUrl = "https://apod.nasa.gov/apod/image/2207/",
-//            title = "Some title",
-//            description = "this is a description"
-//        )
-//    )
-//}
+@Composable
+private fun YesterdayApod(
+    imageUrl: String
+) {
+    Card {
+        SubcomposeAsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            model = imageUrl,
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ApodScreenPreview() {
+    ApodScreen(
+        ApodUiState(
+            imageUrl = "https://apod.nasa.gov/apod/image/2207/",
+            title = "Some title",
+            description = "this is a description"
+        ),
+        imageLoaded = {}
+    )
+}

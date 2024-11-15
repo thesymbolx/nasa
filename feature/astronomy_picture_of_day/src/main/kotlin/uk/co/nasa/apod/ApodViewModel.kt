@@ -32,7 +32,7 @@ class ApodViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
 
         when (val result = astronomyPicturesRepository.getPictureOfTheDay()) {
-            is NetworkResult.Error -> TODO()
+            is NetworkResult.Error -> showError()
             is NetworkResult.Success -> showPictureOfTheDay(result.data)
         }
     }
@@ -43,6 +43,15 @@ class ApodViewModel @Inject constructor(
                 apodUiState = ApodUiState(
                     apod.url, apod.title, apod.description
                 )
+            )
+        }
+    }
+
+    private fun showError() {
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                isError = true
             )
         }
     }
