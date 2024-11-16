@@ -14,6 +14,6 @@ internal class ApodRemoteDataSource @Inject constructor(
         endDate: String?,
         count: Int?,
         thumbs: Boolean?
-    ) : NetworkResult<APODApi> =
-        astronomyPictureOfTheDay.getPictureOfTheDay(date, startDate, endDate, count, thumbs)
+    ) : NetworkResult<List<APODApi>> =
+        astronomyPictureOfTheDay.getPicturesOfTheDay(date, startDate, endDate, count, thumbs)
 }

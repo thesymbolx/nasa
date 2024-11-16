@@ -11,37 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = primaryColor,
-    onPrimary = onPrimaryColor,
-    secondary = secondaryColor,
-    onSecondary = onSecondaryColor,
-    tertiary = tertiaryColor,
-    onTertiary = onTertiaryColor,
-    background = backgroundColor,
-    secondaryContainer = secondaryContainerColor,
-    onSecondaryContainer =  onSecondaryContainerColor,
-    surface = surfaceColor,
-    onSurface = onSurfaceColor,
-    onError = onErrorColor,
-    error = errorColor
-)
 
-private val LightColorScheme = lightColorScheme(
-    primary = primaryColor,
-    onPrimary = onPrimaryColor,
-    secondary = secondaryColor,
-    onSecondary = onSecondaryColor,
-    tertiary = tertiaryColor,
-    onTertiary = onTertiaryColor,
-    background = backgroundColor,
-    secondaryContainer = secondaryContainerColor,
-    onSecondaryContainer =  onSecondaryContainerColor,
-    surface = surfaceColor,
-    onSurface = onSurfaceColor,
-    onError = onErrorColor,
-    error = errorColor
-)
 
 @Composable
 fun NasaTheme(

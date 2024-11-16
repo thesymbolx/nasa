@@ -6,35 +6,31 @@ import uk.co.nasa.astronomyPictures.model.toAPOD
 import uk.co.nasa.network.responseModel.APODApi
 import uk.co.nasa.network.result.NetworkResult
 import uk.co.nasa.network.result.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 interface AstronomyPicturesRepository {
-    suspend fun getPictureOfTheDay(): NetworkResult<APOD>
-    suspend fun getHistoricPictureOfTheDay(date: String): NetworkResult<APOD>
+    suspend fun getPicturesOfTheDay(
+        startDate: LocalDate? = null,
+        endDate: LocalDate? = null
+    ): NetworkResult<List<APOD>>
 }
 
 internal class AstronomyPicturesRepositoryImpl @Inject constructor(
     private val apodRemoteDataSource: ApodRemoteDataSource
 ) : AstronomyPicturesRepository {
-    override suspend fun getPictureOfTheDay(): NetworkResult<APOD> =
+
+    override suspend fun getPicturesOfTheDay(
+        startDate: LocalDate?,
+        endDate: LocalDate?
+    ): NetworkResult<List<APOD>> =
         apodRemoteDataSource.getPictureOfTheDay(
             date = null,
-            startDate = null,
-            endDate = null,
+            startDate = startDate.toString(),
+            endDate = endDate.toString(),
             count = null,
             thumbs = null
-        ).map(APODApi::toAPOD)
-
-    override suspend fun getHistoricPictureOfTheDay(date: String): NetworkResult<APOD> =
-        apodRemoteDataSource.getPictureOfTheDay(
-            date = date,
-            startDate = null,
-            endDate = null,
-            count = null,
-            thumbs = null
-        ).map(APODApi::toAPOD)
-
-
+        ).map(List<APODApi>::toAPOD)
 
 }
 

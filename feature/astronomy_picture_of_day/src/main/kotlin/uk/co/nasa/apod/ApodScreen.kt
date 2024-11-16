@@ -1,17 +1,23 @@
 package uk.co.nasa.apod
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Card
@@ -25,27 +31,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.graphics.shapes.RoundedPolygon
+import androidx.graphics.shapes.toPath
 import coil3.compose.SubcomposeAsyncImage
+import kotlinx.collections.immutable.ImmutableList
 import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.LoadingScreen
 import uk.co.nasa.ui.parallaxLayoutModifier
+import uk.co.nasa.ui.shapes.SlantedSquare
 
 @Composable
 fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
-    val apodState = uiState.apodUiState
+    val todayApod = uiState.todayApod
 
     //Overlay the loading screen on the content to allow preloading of the image to avoid jank.
     Box {
         when {
-            apodState != null -> ApodScreen(apodState, viewModel::contentLoaded)
+            todayApod != null -> ApodScreen(
+                todayApod,
+                uiState.historicApod,
+                viewModel::contentLoaded
+            )
+
             uiState.isError -> ErrorScreen()
         }
         if (uiState.isLoading) LoadingScreen()
@@ -54,7 +80,8 @@ fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
 
 @Composable
 fun ApodScreen(
-    uiState: ApodUiState,
+    todayApod: ApodStateItem,
+    historicApod: ImmutableList<ApodStateItem>,
     imageLoaded: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -76,9 +103,26 @@ fun ApodScreen(
                         ), blendMode = BlendMode.DstIn
                     )
                 },
-            model = uiState.imageUrl,
+            model = todayApod.imageUrl,
             onSuccess = {
                 imageLoaded()
+            },
+            error = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+                    Image(
+                        imageVector = Icons.Filled.Warning,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                    )
+                    Text(
+                        text = "Failed to load image",
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
             },
             contentDescription = null,
             contentScale = ContentScale.FillWidth
@@ -94,7 +138,7 @@ fun ApodScreen(
                 drawRect(brush = gradientBrush)
             }
         ) {
-            Header(title = uiState.title)
+            Header(title = todayApod.title)
 
             Text(
                 modifier = Modifier.padding(
@@ -103,12 +147,17 @@ fun ApodScreen(
                     top = 24.dp,
                     bottom = 16.dp
                 ),
-                text = uiState.description,
+                text = todayApod.description,
                 color = Color.White,
                 style = MaterialTheme.typography.bodyLarge
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 200.dp))
+            historicApod.forEach { item ->
+                HistoricApod(
+                    imageUrl = item.imageUrl,
+                    title = item.title
+                )
+            }
         }
     }
 }
@@ -157,30 +206,41 @@ private fun Header(
 }
 
 @Composable
-private fun YesterdayApod(
-    imageUrl: String
+private fun HistoricApod(
+    imageUrl: String,
+    title: String
 ) {
-    Card {
-        SubcomposeAsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            model = imageUrl,
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth
+    Card(
+        modifier = Modifier.padding(
+            vertical = 12.dp,
+            horizontal = 16.dp
         )
-    }
-}
+    ) {
+        Row(
+            modifier = Modifier.height(100.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-@Preview
-@Composable
-fun ApodScreenPreview() {
-    ApodScreen(
-        ApodUiState(
-            imageUrl = "https://apod.nasa.gov/apod/image/2207/",
-            title = "Some title",
-            description = "this is a description"
-        ),
-        imageLoaded = {}
-    )
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .clip(SlantedSquare())
+                    .fillMaxHeight()
+                    .weight(0.33f)
+                    .shadow(elevation = 8.dp),
+                model = imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+
+            Text(
+                modifier = Modifier
+                    .weight(0.66f)
+                    .padding(16.dp),
+                text = title,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp
+                )
+            )
+        }
+    }
 }

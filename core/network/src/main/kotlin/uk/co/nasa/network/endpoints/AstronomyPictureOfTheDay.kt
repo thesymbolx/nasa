@@ -8,12 +8,12 @@ import uk.co.nasa.network.result.NetworkResult
 interface AstronomyPictureOfTheDay {
 
     @GET("planetary/apod")
-    suspend fun getPictureOfTheDay(
+    suspend fun getPicturesOfTheDay(
         @Query("date") date: String?,
         @Query("start_date") startDate: String?,
         @Query("end_date") endDate: String?,
         @Query("count") count: Int?,
         @Query("thumbs") thumbs: Boolean?
-    ) : NetworkResult<APODApi>
+    ) : NetworkResult<List<APODApi>>
 
 }

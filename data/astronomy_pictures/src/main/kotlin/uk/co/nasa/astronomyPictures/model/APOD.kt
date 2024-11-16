@@ -13,3 +13,8 @@ fun APODApi.toAPOD() = APOD(
     title = title,
     url = url
 )
+
+
+fun List<APODApi>.toAPOD(): List<APOD> = map {
+    it.toAPOD()
+}
