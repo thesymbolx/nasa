@@ -1,23 +1,17 @@
 package uk.co.nasa.apod
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Card
@@ -34,28 +28,16 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asComposePath
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.graphics.shapes.RoundedPolygon
-import androidx.graphics.shapes.toPath
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.LoadingScreen
-import uk.co.nasa.ui.parallaxLayoutModifier
+import uk.co.nasa.ui.images.ParallaxImage
 import uk.co.nasa.ui.shapes.SlantedSquare
 
 @Composable
@@ -89,51 +71,18 @@ fun ApodScreen(
     Column(
         Modifier.verticalScroll(scrollState)
     ) {
-        SubcomposeAsyncImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .parallaxLayoutModifier(scrollState, 2)
-                .drawWithContent {
-                    drawContent()
-                    drawRect(
-                        brush = Brush.verticalGradient(
-                            0.92f to Color.Black,
-                            1f to Color.Transparent
-                        ), blendMode = BlendMode.DstIn
-                    )
-                },
-            model = todayApod.imageUrl,
-            onSuccess = {
-                imageLoaded()
-            },
-            error = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                ) {
-                    Image(
-                        imageVector = Icons.Filled.Warning,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                    )
-                    Text(
-                        text = "Failed to load image",
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
-            },
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth
+        ParallaxImage(
+            imageUrl = todayApod.imageUrl,
+            scrollState = scrollState,
+            imageLoaded = imageLoaded
         )
 
         Column(
             modifier = Modifier.drawBehind {
                 val gradientBrush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.Black), // Customize colors
+                    colors = listOf(Color.Transparent, Color.Black),
                     startY = 0f,
-                    endY = size.height * 0.1f // Adjust gradient height
+                    endY = size.height * 0.1f
                 )
                 drawRect(brush = gradientBrush)
             }
