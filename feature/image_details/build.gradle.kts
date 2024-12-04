@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "uk.co.nasa.apod"
+    namespace = "uk.co.nasa.imageDetails"
     compileSdk = 34
 
     defaultConfig {

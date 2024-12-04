@@ -9,7 +9,7 @@ data class APODApi (
     val date: String,
     val explanation: String,
     @SerialName("hdurl")
-    val hdUrl: String,
+    val hdUrl: String? = null,
     val mediaType: String? = null,
     val serviceVersion: String? = null,
     val title: String,

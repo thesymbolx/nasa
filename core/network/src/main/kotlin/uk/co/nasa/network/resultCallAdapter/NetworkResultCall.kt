@@ -17,7 +17,7 @@ class NetworkResultCall<T : Any>(
     override fun timeout(): Timeout = proxy.timeout()
     override fun isExecuted(): Boolean = proxy.isExecuted
     override fun isCanceled(): Boolean = proxy.isCanceled
-    override fun cancel() { proxy.cancel() }
+    override fun cancel() = proxy.cancel()
 
     override fun enqueue(callback: Callback<NetworkResult<T>>) {
         proxy.enqueue(object : Callback<T> {

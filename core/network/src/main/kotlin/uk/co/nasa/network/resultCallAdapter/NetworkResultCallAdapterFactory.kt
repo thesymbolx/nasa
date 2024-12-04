@@ -7,7 +7,7 @@ import uk.co.nasa.network.result.NetworkResult
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class ResultCallAdapterFactory : CallAdapter.Factory() {
+class NetworkResultCallAdapterFactory : CallAdapter.Factory() {
     override fun get(
         returnType: Type,
         annotations: Array<out Annotation>,
@@ -27,6 +27,6 @@ class ResultCallAdapterFactory : CallAdapter.Factory() {
     }
 
     companion object {
-        fun create(): ResultCallAdapterFactory = ResultCallAdapterFactory()
+        fun create(): NetworkResultCallAdapterFactory = NetworkResultCallAdapterFactory()
     }
 }
