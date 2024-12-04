@@ -1,4 +1,4 @@
-package nasa
+package uk.co.nasa
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
