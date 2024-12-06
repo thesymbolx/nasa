@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +19,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ShareHeader(
     title: String,
-    onShare: () -> Unit,
     onBookmark: () -> Unit
 ) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,26 +32,20 @@ fun ShareHeader(
         Text(
             modifier = Modifier
                 .wrapContentHeight()
-                .weight(1f),
+                .weight(1f)
+                .padding(end = 8.dp),
             text = title,
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium
         )
 
-        IconButton(onClick = onShare) {
+        IconButton(
+            modifier = Modifier
+                .padding(end = 4.dp),
+            onClick = onBookmark
+        ) {
             Icon(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .size(24.dp),
-                imageVector = Icons.Outlined.Share,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-
-        IconButton(onClick = onBookmark) {
-            Icon(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(28.dp),
                 imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary

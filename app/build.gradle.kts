@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.coil)
     implementation(project(":feature:image_details"))
     kapt(libs.hilt.complier)
     implementation(libs.hilt)

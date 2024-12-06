@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
-import uk.co.nasa.ui.NasaApp
 import uk.co.nasa.designsystem.theme.NasaTheme
+import uk.co.nasa.ui.NasaApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

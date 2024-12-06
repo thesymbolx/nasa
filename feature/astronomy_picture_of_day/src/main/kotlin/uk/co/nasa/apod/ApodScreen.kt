@@ -37,7 +37,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -55,12 +57,9 @@ import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.images.ParallaxImage
 import uk.co.nasa.ui.shapes.SlantedSquare
 
-@kotlin.OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ApodScreen(
     viewModel: ApodViewModel = hiltViewModel(),
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     imageSelected: (
         imageUrl: String,
         title: String,
@@ -76,8 +75,6 @@ fun ApodScreen(
             todayApod != null -> ApodScreen(
                 todayApod = todayApod,
                 historicApod = uiState.historicApod,
-                sharedTransitionScope = sharedTransitionScope,
-                animatedVisibilityScope = animatedVisibilityScope,
                 imageLoaded = viewModel::contentLoaded,
                 imageSelected = imageSelected
             )
@@ -88,13 +85,10 @@ fun ApodScreen(
     }
 }
 
-@kotlin.OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ApodScreen(
     todayApod: ApodStateItem,
     historicApod: ImmutableList<ApodStateItem>,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     imageLoaded: () -> Unit,
     imageSelected: (
         imageUrl: String,
@@ -125,7 +119,6 @@ fun ApodScreen(
         ) {
             ShareHeader(
                 title = todayApod.title,
-                onShare = { TODO() },
                 onBookmark = { TODO() }
             )
 
@@ -142,10 +135,9 @@ fun ApodScreen(
             )
 
             historicApod.forEach { item ->
-                sharedTransitionScope.HistoricApod(
+                HistoricApod(
                     imageUrl = item.imageUrl,
                     title = item.title,
-                    animatedVisibilityScope = animatedVisibilityScope,
                     imageSelected = {
                         imageSelected(
                             item.imageUrl,
@@ -159,12 +151,10 @@ fun ApodScreen(
     }
 }
 
-@kotlin.OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-private fun SharedTransitionScope.HistoricApod(
+private fun HistoricApod(
     imageUrl: String,
     title: String,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     imageSelected: () -> Unit
 ) {
     Card(
@@ -174,26 +164,17 @@ private fun SharedTransitionScope.HistoricApod(
         )
     ) {
         Row(
-            modifier = Modifier.height(100.dp),
+            modifier = Modifier
+                .height(100.dp)
+                .clickable {
+                    imageSelected()
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             SubcomposeAsyncImage(
                 modifier = Modifier
-                    .clip(SlantedSquare())
                     .fillMaxHeight()
-                    .weight(0.33f)
-                    .shadow(elevation = 8.dp)
-                    .sharedElement(
-                        state = rememberSharedContentState(imageUrl),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = { _, _ ->
-                            tween(durationMillis = 1000)
-                        }
-                    )
-                    .clickable{
-                        imageSelected()
-                    },
+                    .weight(0.33f),
                 model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop

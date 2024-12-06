@@ -19,14 +19,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import coil3.compose.SubcomposeAsyncImage
+import coil3.request.ImageRequest
 import uk.co.nasa.ui.parallaxLayoutModifier
 
 @Composable
 fun ParallaxImage(
     imageUrl: String,
     scrollState: ScrollState,
-    imageLoaded: () -> Unit
+    modifier: Modifier = Modifier,
+    imageLoaded: () -> Unit = {}
 ) {
     SubcomposeAsyncImage(
         modifier = Modifier
@@ -41,7 +44,7 @@ fun ParallaxImage(
                         1f to Color.Transparent
                     ), blendMode = BlendMode.DstIn
                 )
-            },
+            }.then(modifier),
         model = imageUrl,
         onSuccess = {
             imageLoaded()

@@ -2,11 +2,10 @@
 
 package uk.co.nasa.imageDetails
 
-import androidx.compose.animation.AnimatedVisibilityScope
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,17 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.images.ParallaxImage
 
 @Composable
-fun SharedTransitionScope.ImageDetailsScreen(
+fun ImageDetailsScreen(
     imageUrl: String,
     title: String,
     description: String,
-    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     Column(
@@ -36,14 +37,7 @@ fun SharedTransitionScope.ImageDetailsScreen(
     ) {
         ParallaxImage(
             imageUrl = imageUrl,
-            scrollState = scrollState,
-            modifier = Modifier.sharedElement(
-                state = rememberSharedContentState(imageUrl),
-                animatedVisibilityScope = animatedVisibilityScope,
-                boundsTransform = { _, _ ->
-                    tween(durationMillis = 1000)
-                }
-            )
+            scrollState = scrollState
         )
 
         Column(
@@ -58,7 +52,7 @@ fun SharedTransitionScope.ImageDetailsScreen(
         ) {
             ShareHeader(
                 title = title,
-                onShare = { TODO() },
+                onShare = {  },
                 onBookmark = { TODO() }
             )
 

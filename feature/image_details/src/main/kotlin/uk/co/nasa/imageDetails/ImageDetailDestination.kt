@@ -25,16 +25,14 @@ fun NavController.navigateToImageDetails(
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 fun NavGraphBuilder.imageDetailDestination(
-    sharedTransitionScope: SharedTransitionScope
 ) {
     composable<ImageDetailRoute> { navBackStackEntry ->
         val route = navBackStackEntry.toRoute<ImageDetailRoute>()
 
-        sharedTransitionScope.ImageDetailsScreen(
+        ImageDetailsScreen(
             imageUrl = route.imageUrl,
             description = route.description,
             title = route.title,
-            animatedVisibilityScope = this
         )
     }
 }
