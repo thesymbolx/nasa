@@ -52,7 +52,6 @@ fun ImageDetailsScreen(
         ) {
             ShareHeader(
                 title = title,
-                onShare = {  },
                 onBookmark = { TODO() }
             )
 

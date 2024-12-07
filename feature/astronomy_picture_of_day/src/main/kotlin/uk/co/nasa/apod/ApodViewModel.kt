@@ -55,11 +55,15 @@ class ApodViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 todayApod = ApodStateItem(
-                    todayApod.url, todayApod.title, todayApod.description
+                    imageUrl = todayApod.url,
+                    title = todayApod.title,
+                    description = todayApod.description
                 ),
                 historicApod = apodNewestFirst.map { historicApod ->
                     ApodStateItem(
-                        historicApod.url, historicApod.title, historicApod.description
+                        imageUrl = historicApod.url,
+                        title = historicApod.title,
+                        description = historicApod.description
                     )
                 }.toImmutableList()
             )

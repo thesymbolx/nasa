@@ -1,61 +1,34 @@
 package uk.co.nasa.apod
 
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.annotation.OptIn
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.material3.Text
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerControlView
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.LoadingScreen
 import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.images.ParallaxImage
-import uk.co.nasa.ui.shapes.SlantedSquare
 
 @Composable
 fun ApodScreen(
@@ -104,7 +77,7 @@ fun ApodScreen(
         ParallaxImage(
             imageUrl = todayApod.imageUrl,
             scrollState = scrollState,
-            imageLoaded = imageLoaded,
+            imageLoaded = imageLoaded
         )
 
         Column(
@@ -159,13 +132,13 @@ private fun HistoricApod(
 ) {
     Card(
         modifier = Modifier.padding(
-            vertical = 12.dp,
+            vertical = 10.dp,
             horizontal = 16.dp
         )
     ) {
         Row(
             modifier = Modifier
-                .height(100.dp)
+                .height(90.dp)
                 .clickable {
                     imageSelected()
                 },
@@ -185,9 +158,7 @@ private fun HistoricApod(
                     .weight(0.66f)
                     .padding(16.dp),
                 text = title,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 18.sp
-                )
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
