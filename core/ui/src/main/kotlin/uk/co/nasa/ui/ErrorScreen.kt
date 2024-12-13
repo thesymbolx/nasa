@@ -29,13 +29,13 @@ fun ErrorScreen() {
             contentDescription = null,
             modifier = Modifier
                 .padding(end = 16.dp)
-                .size(24.dp),
+                .size(34.dp),
             tint = MaterialTheme.colorScheme.onPrimary
         )
 
         Text(
             text = "Something Went Wrong",
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
