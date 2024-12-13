@@ -52,21 +52,27 @@ class ApodViewModel @Inject constructor(
 
         val apodNewestFirst = apods.reversed().drop(1)
 
-        _uiState.update {
-            it.copy(
-                todayApod = ApodStateItem(
-                    imageUrl = todayApod.url,
-                    title = todayApod.title,
-                    description = todayApod.description
-                ),
-                historicApod = apodNewestFirst.map { historicApod ->
-                    ApodStateItem(
-                        imageUrl = historicApod.url,
-                        title = historicApod.title,
-                        description = historicApod.description
-                    )
-                }.toImmutableList()
-            )
+        if (uiState.value.todayApod?.imageUrl != todayApod.url) {
+            _uiState.update {
+                it.copy(
+                    todayApod = ApodStateItem(
+                        imageUrl = todayApod.url,
+                        title = todayApod.title,
+                        description = todayApod.description
+                    ),
+                    historicApod = apodNewestFirst.map { historicApod ->
+                        ApodStateItem(
+                            imageUrl = historicApod.url,
+                            title = historicApod.title,
+                            description = historicApod.description
+                        )
+                    }.toImmutableList()
+                )
+            }
+        } else {
+            _uiState.update {
+                it.copy(isError = true, isLoading = false)
+            }
         }
     }
 
