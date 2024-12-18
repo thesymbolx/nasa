@@ -1,11 +1,5 @@
-@file:OptIn(ExperimentalSharedTransitionApi::class)
-
 package uk.co.nasa.imageDetails
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -17,9 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.images.ParallaxImage
 
@@ -27,9 +19,8 @@ import uk.co.nasa.ui.images.ParallaxImage
 fun ImageDetailsScreen(
     imageUrl: String,
     title: String,
-    description: String,
+    description: String
 ) {
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     Column(
