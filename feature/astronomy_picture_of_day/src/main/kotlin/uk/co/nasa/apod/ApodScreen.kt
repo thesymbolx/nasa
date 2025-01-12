@@ -37,7 +37,8 @@ fun ApodScreen(
     imageSelected: (
         imageUrl: String,
         title: String,
-        description: String
+        description: String,
+        favorite: Boolean
     ) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -50,7 +51,8 @@ fun ApodScreen(
                 todayApod = todayApod,
                 historicApod = uiState.historicApod,
                 imageLoaded = viewModel::contentLoaded,
-                imageSelected = imageSelected
+                imageSelected = imageSelected,
+                onFavoriteClick = viewModel::saveFavorite
             )
 
             uiState.isError -> ErrorScreen()
@@ -67,8 +69,10 @@ fun ApodScreen(
     imageSelected: (
         imageUrl: String,
         title: String,
-        description: String
-    ) -> Unit
+        description: String,
+        favorite: Boolean
+    ) -> Unit,
+    onFavoriteClick: (imageUrl: String, isSelected: Boolean) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -93,7 +97,10 @@ fun ApodScreen(
         ) {
             ShareHeader(
                 title = todayApod.title,
-                onBookmark = { TODO() }
+                favoriteSelected = todayApod.favorite,
+                onFavoriteClick = { isSelected ->
+                    onFavoriteClick(todayApod.imageUrl, isSelected)
+                }
             )
 
             Text(
@@ -116,7 +123,8 @@ fun ApodScreen(
                         imageSelected(
                             item.imageUrl,
                             item.title,
-                            item.description
+                            item.description,
+                            item.favorite
                         )
                     }
                 )

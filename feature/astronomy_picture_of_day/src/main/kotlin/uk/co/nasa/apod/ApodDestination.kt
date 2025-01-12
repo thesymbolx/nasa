@@ -11,7 +11,8 @@ fun NavGraphBuilder.apodDestination(
     imageSelected: (
         imageUrl: String,
         title: String,
-        description: String
+        description: String,
+        favorite: Boolean
     ) -> Unit
 ) {
     composable<APODRoute> {

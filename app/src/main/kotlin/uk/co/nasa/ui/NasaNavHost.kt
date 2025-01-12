@@ -19,8 +19,8 @@ fun NasaNavHost(
         navController = navController,
         startDestination = APODRoute
     ) {
-        apodDestination { imageUrl, title, description ->
-            navController.navigateToImageDetails(imageUrl, description, title)
+        apodDestination { imageUrl, title, description, favorite ->
+            navController.navigateToImageDetails(imageUrl, description, title, favorite)
         }
 
         imageDetailDestination()

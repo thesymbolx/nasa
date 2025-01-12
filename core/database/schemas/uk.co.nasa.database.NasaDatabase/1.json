@@ -2,29 +2,23 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5fa718c4e5d642aeb836071cfac7649c",
+    "identityHash": "8cb027b9aff1cd1647c69e80f70d4197",
     "entities": [
       {
         "tableName": "ApodFavorite",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `image_url` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`imageUrl` TEXT NOT NULL, PRIMARY KEY(`imageUrl`))",
         "fields": [
           {
-            "fieldPath": "uid",
-            "columnName": "uid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "imageUrl",
-            "columnName": "image_url",
+            "columnName": "imageUrl",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "uid"
+            "imageUrl"
           ]
         },
         "indices": [],
@@ -34,7 +28,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5fa718c4e5d642aeb836071cfac7649c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8cb027b9aff1cd1647c69e80f70d4197')"
     ]
   }
 }

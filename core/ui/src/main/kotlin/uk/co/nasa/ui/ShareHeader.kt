@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,7 +20,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ShareHeader(
     title: String,
-    onBookmark: () -> Unit
+    favoriteSelected: Boolean,
+    onFavoriteClick: (isSelected: Boolean) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -42,11 +44,13 @@ fun ShareHeader(
         IconButton(
             modifier = Modifier
                 .padding(end = 4.dp),
-            onClick = onBookmark
+            onClick = {
+                onFavoriteClick(!favoriteSelected)
+            }
         ) {
             Icon(
                 modifier = Modifier.size(28.dp),
-                imageVector = Icons.Outlined.FavoriteBorder,
+                imageVector = if(favoriteSelected)Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )

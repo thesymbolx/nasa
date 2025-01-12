@@ -18,6 +18,7 @@ import uk.co.nasa.ui.images.ParallaxImage
 @Composable
 fun ImageDetailsScreen(
     imageUrl: String,
+    favorite: Boolean,
     title: String,
     description: String
 ) {
@@ -43,7 +44,8 @@ fun ImageDetailsScreen(
         ) {
             ShareHeader(
                 title = title,
-                onBookmark = { TODO() }
+                favoriteSelected = favorite,
+                onFavoriteClick = { TODO() }
             )
 
             Text(

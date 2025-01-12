@@ -6,8 +6,12 @@ import javax.inject.Inject
 internal class ApodFavoritesRepositoryImpl @Inject constructor(
     private val apodFavoritesDataSource: ApodFavoritesDataSource
 ) : ApodFavoritesRepository {
-    override fun getFavorites() = apodFavoritesDataSource.getFavorites()
+    override suspend fun getFavorites() = apodFavoritesDataSource.getFavorites()
 
-    override fun saveFavorites(imageUrl: String) =
+    override suspend fun saveFavorites(imageUrl: String) =
         apodFavoritesDataSource.saveFavorite(imageUrl)
+
+    override suspend fun removeFavorite(imageUrl: String) {
+        apodFavoritesDataSource.removeFavorite(imageUrl)
+    }
 }

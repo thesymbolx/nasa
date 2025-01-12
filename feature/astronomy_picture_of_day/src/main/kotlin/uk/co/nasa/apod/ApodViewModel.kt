@@ -60,13 +60,15 @@ class ApodViewModel @Inject constructor(
                     todayApod = ApodStateItem(
                         imageUrl = todayApod.url,
                         title = todayApod.title,
-                        description = todayApod.description
+                        description = todayApod.description,
+                        favorite = false
                     ),
                     historicApod = apodNewestFirst.map { historicApod ->
                         ApodStateItem(
                             imageUrl = historicApod.url,
                             title = historicApod.title,
-                            description = historicApod.description
+                            description = historicApod.description,
+                            favorite = false
                         )
                     }.toImmutableList()
                 )
@@ -78,8 +80,18 @@ class ApodViewModel @Inject constructor(
         }
     }
 
-    private fun saveFavorite(imageUrl: String) {
-        apodFavoritesRepository.saveFavorites(imageUrl)
+    fun saveFavorite(imageUrl: String, isSelected: Boolean) = viewModelScope.launch {
+        if (isSelected)
+            apodFavoritesRepository.saveFavorites(imageUrl)
+        else
+            apodFavoritesRepository.removeFavorite(imageUrl)
+
+
+        _uiState.update {
+            it.copy(
+                todayApod = it.todayApod?.copy(favorite = isSelected)
+            )
+        }
     }
 
     private fun showError() {

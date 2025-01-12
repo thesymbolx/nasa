@@ -26,7 +26,6 @@ class DatabaseModule {
         ).build()
 
     @Provides
-    @Singleton
     fun provideApodFavoritesDao(roomDatabase: NasaDatabase): ApodFavoritesDao =
         roomDatabase.apodFavoritesDao()
 }

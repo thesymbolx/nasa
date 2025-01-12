@@ -13,5 +13,6 @@ data class ApodUiState(
 data class ApodStateItem(
     val imageUrl: String,
     val title: String,
-    val description: String
+    val description: String,
+    val favorite: Boolean
 )

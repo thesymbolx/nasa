@@ -14,24 +14,25 @@ import kotlinx.serialization.Serializable
 data class ImageDetailRoute(
     val imageUrl: String,
     val title: String,
-    val description: String
+    val description: String,
+    val favorite: Boolean
 )
 
 fun NavController.navigateToImageDetails(
     imageUrl: String,
     description: String,
-    title: String
-) = navigate(ImageDetailRoute(imageUrl, title, description))
+    title: String,
+    favorite: Boolean
+) = navigate(ImageDetailRoute(imageUrl, title, description, favorite))
 
-@OptIn(ExperimentalSharedTransitionApi::class)
-fun NavGraphBuilder.imageDetailDestination(
-) {
+fun NavGraphBuilder.imageDetailDestination() {
     composable<ImageDetailRoute> { navBackStackEntry ->
         val route = navBackStackEntry.toRoute<ImageDetailRoute>()
 
         ImageDetailsScreen(
             imageUrl = route.imageUrl,
             description = route.description,
+            favorite = route.favorite,
             title = route.title,
         )
     }

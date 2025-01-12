@@ -7,10 +7,11 @@ import javax.inject.Inject
 internal class ApodFavoritesDataSource @Inject constructor(
     private val apodFavoritesDao: ApodFavoritesDao
 ) {
-    fun getFavorites() = apodFavoritesDao.getAll()
+    suspend fun getFavorites() = apodFavoritesDao.getAll()
 
-    fun saveFavorite(imageUrl: String) =
-        apodFavoritesDao.insertAll(
-            ApodFavorite(imageUrl = imageUrl),
-        )
+    suspend fun saveFavorite(imageUrl: String) =
+        apodFavoritesDao.insert(ApodFavorite(imageUrl = imageUrl))
+
+    suspend fun removeFavorite(imageUrl: String) =
+        apodFavoritesDao.delete(ApodFavorite(imageUrl = imageUrl))
 }
