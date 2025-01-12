@@ -11,19 +11,27 @@ import javax.inject.Inject
 
 internal class ApodRepositoryImpl @Inject constructor(
     private val apodRemoteDataSource: ApodRemoteDataSource,
+    private val apodFavoritesRepository: ApodFavoritesRepository
 ) : ApodRepository {
 
     override suspend fun getPicturesOfTheDay(
         startDate: LocalDate?,
         endDate: LocalDate?
-    ): NetworkResult<List<APOD>> =
-        apodRemoteDataSource.getPictureOfTheDay(
+    ): NetworkResult<List<APOD>> {
+        val favorites = apodFavoritesRepository.getFavorites()
+
+        val apodResult = apodRemoteDataSource.getPictureOfTheDay(
             date = null,
             startDate = startDate.toString(),
             endDate = endDate.toString(),
             count = null,
             thumbs = null
-        ).map(List<APODApi>::toAPOD)
+        )
+
+        return apodResult.map { apodsApi: List<APODApi> ->
+            apodsApi.toAPOD(favorites)
+        }
+    }
 
 }
 

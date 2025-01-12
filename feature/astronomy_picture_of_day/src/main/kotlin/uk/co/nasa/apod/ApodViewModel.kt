@@ -61,14 +61,14 @@ class ApodViewModel @Inject constructor(
                         imageUrl = todayApod.url,
                         title = todayApod.title,
                         description = todayApod.description,
-                        favorite = false
+                        favorite = todayApod.favorite
                     ),
                     historicApod = apodNewestFirst.map { historicApod ->
                         ApodStateItem(
                             imageUrl = historicApod.url,
                             title = historicApod.title,
                             description = historicApod.description,
-                            favorite = false
+                            favorite = historicApod.favorite
                         )
                     }.toImmutableList()
                 )
