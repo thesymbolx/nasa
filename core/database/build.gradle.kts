@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    id("kotlinx-serialization")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "uk.co.nasa.astronomyPictures"
+    namespace = "uk.co.nasa.database"
     compileSdk = 34
 
     defaultConfig {
@@ -14,6 +16,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -35,18 +41,16 @@ android {
 }
 
 dependencies {
+    ksp(libs.room.complier)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+
+    implementation(libs.hilt)
+    kapt(libs.hilt.complier)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    ksp(libs.hilt.complier)
-
-    ksp(libs.room.complier)
-    ksp(libs.room.ktx)
-    ksp(libs.room.runtime)
-
-    implementation(libs.hilt)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

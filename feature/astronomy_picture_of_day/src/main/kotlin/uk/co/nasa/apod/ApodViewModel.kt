@@ -11,14 +11,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uk.co.nasa.astronomyPictures.model.APOD
-import uk.co.nasa.astronomyPictures.repository.AstronomyPicturesRepository
+import uk.co.nasa.astronomyPictures.repository.ApodFavoritesRepository
+import uk.co.nasa.astronomyPictures.repository.ApodRepository
 import uk.co.nasa.network.result.NetworkResult
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class ApodViewModel @Inject constructor(
-    private val astronomyPicturesRepository: AstronomyPicturesRepository
+    private val apodRepository: ApodRepository,
+    private val apodFavoritesRepository: ApodFavoritesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ApodUiState())
@@ -36,7 +38,7 @@ class ApodViewModel @Inject constructor(
         val today = LocalDate.now()
         val minus10Days = today.minusDays(10)
 
-        when (val result = astronomyPicturesRepository.getPicturesOfTheDay(minus10Days, today)) {
+        when (val result = apodRepository.getPicturesOfTheDay(minus10Days, today)) {
             is NetworkResult.Error -> showError()
             is NetworkResult.Success -> showPictureOfTheDay(result.data)
         }
@@ -74,6 +76,10 @@ class ApodViewModel @Inject constructor(
                 it.copy(isError = true, isLoading = false)
             }
         }
+    }
+
+    private fun saveFavorite(imageUrl: String) {
+        apodFavoritesRepository.saveFavorites(imageUrl)
     }
 
     private fun showError() {

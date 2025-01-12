@@ -9,16 +9,9 @@ import uk.co.nasa.network.result.map
 import java.time.LocalDate
 import javax.inject.Inject
 
-interface AstronomyPicturesRepository {
-    suspend fun getPicturesOfTheDay(
-        startDate: LocalDate? = null,
-        endDate: LocalDate? = null
-    ): NetworkResult<List<APOD>>
-}
-
-internal class AstronomyPicturesRepositoryImpl @Inject constructor(
-    private val apodRemoteDataSource: ApodRemoteDataSource
-) : AstronomyPicturesRepository {
+internal class ApodRepositoryImpl @Inject constructor(
+    private val apodRemoteDataSource: ApodRemoteDataSource,
+) : ApodRepository {
 
     override suspend fun getPicturesOfTheDay(
         startDate: LocalDate?,

@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(project(":core:network"))
+    implementation(project(":core:network"))
+    implementation(project(":core:database"))
     implementation(project(":feature:astronomy_picture_of_day"))
     implementation(project(":core:designsystem"))
     implementation(libs.androidx.navigation.common.ktx)

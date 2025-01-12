@@ -4,12 +4,18 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import uk.co.nasa.astronomyPictures.repository.AstronomyPicturesRepository
-import uk.co.nasa.astronomyPictures.repository.AstronomyPicturesRepositoryImpl
+import dagger.hilt.components.SingletonComponent
+import uk.co.nasa.astronomyPictures.repository.ApodFavoritesRepository
+import uk.co.nasa.astronomyPictures.repository.ApodFavoritesRepositoryImpl
+import uk.co.nasa.astronomyPictures.repository.ApodRepository
+import uk.co.nasa.astronomyPictures.repository.ApodRepositoryImpl
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 internal interface MyModule {
     @Binds
-    abstract fun bindMyDependency(impl: AstronomyPicturesRepositoryImpl): AstronomyPicturesRepository
+    abstract fun bindApodRepository(impl: ApodRepositoryImpl): ApodRepository
+
+    @Binds
+    abstract fun bindApodFavoritesRepository(impl: ApodFavoritesRepositoryImpl): ApodFavoritesRepository
 }
