@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     id("kotlinx-serialization")
-    id("kotlin-kapt")
 }
 
 android {
@@ -32,11 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -46,7 +45,7 @@ dependencies {
     implementation(libs.room.runtime)
 
     implementation(libs.hilt)
-    kapt(libs.hilt.complier)
+    ksp(libs.hilt.complier)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
