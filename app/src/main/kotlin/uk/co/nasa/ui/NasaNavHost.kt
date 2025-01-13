@@ -8,8 +8,6 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import uk.co.nasa.apod.APODRoute
 import uk.co.nasa.apod.apodDestination
-import uk.co.nasa.imageDetails.imageDetailDestination
-import uk.co.nasa.imageDetails.navigateToImageDetails
 
 @Composable
 fun NasaNavHost(
@@ -19,11 +17,7 @@ fun NasaNavHost(
         navController = navController,
         startDestination = APODRoute
     ) {
-        apodDestination { imageUrl, title, description, favorite ->
-            navController.navigateToImageDetails(imageUrl, description, title, favorite)
-        }
-
-        imageDetailDestination()
+        apodDestination()
 
         composable<TAB2> {
             Text(text = "This is screen 2")

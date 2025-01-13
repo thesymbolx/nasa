@@ -7,15 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 object APODRoute
 
-fun NavGraphBuilder.apodDestination(
-    imageSelected: (
-        imageUrl: String,
-        title: String,
-        description: String,
-        favorite: Boolean
-    ) -> Unit
-) {
+fun NavGraphBuilder.apodDestination() {
     composable<APODRoute> {
-        ApodScreen(imageSelected = imageSelected)
+        ApodScreen()
     }
 }

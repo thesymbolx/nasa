@@ -34,15 +34,7 @@ import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.images.ParallaxImage
 
 @Composable
-fun ApodScreen(
-    viewModel: ApodViewModel = hiltViewModel(),
-    imageSelected: (
-        imageUrl: String,
-        title: String,
-        description: String,
-        favorite: Boolean
-    ) -> Unit
-) {
+fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val todayApod = uiState.todayApod
 
@@ -53,12 +45,7 @@ fun ApodScreen(
                 todayApod = todayApod,
                 historicApod = uiState.historicApod,
                 imageLoaded = viewModel::contentLoaded,
-                imageSelected = { imageUrl: String,
-                    title: String,
-                    description: String,
-                    favorite: Boolean ->
-                    viewModel.apodSelected(imageUrl)
-                },
+                imageSelected = viewModel::apodSelected,
                 onFavoriteClick = viewModel::saveFavorite
             )
 
@@ -73,12 +60,7 @@ fun ApodScreen(
     todayApod: ApodStateItem,
     historicApod: ImmutableList<ApodStateItem>,
     imageLoaded: () -> Unit,
-    imageSelected: (
-        imageUrl: String,
-        title: String,
-        description: String,
-        favorite: Boolean
-    ) -> Unit,
+    imageSelected: (imageUrl: String) -> Unit,
     onFavoriteClick: (imageUrl: String, isSelected: Boolean) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -132,14 +114,7 @@ fun ApodScreen(
                 HistoricApod(
                     imageUrl = item.imageUrl,
                     title = item.title,
-                    imageSelected = {
-                        imageSelected(
-                            item.imageUrl,
-                            item.title,
-                            item.description,
-                            item.favorite
-                        )
-                    }
+                    imageSelected = imageSelected
                 )
             }
         }
@@ -150,7 +125,7 @@ fun ApodScreen(
 private fun HistoricApod(
     imageUrl: String,
     title: String,
-    imageSelected: () -> Unit
+    imageSelected: (imageUrl: String) -> Unit
 ) {
     Card(
         modifier = Modifier.padding(
@@ -162,7 +137,7 @@ private fun HistoricApod(
             modifier = Modifier
                 .height(90.dp)
                 .clickable {
-                    imageSelected()
+                    imageSelected(imageUrl)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
