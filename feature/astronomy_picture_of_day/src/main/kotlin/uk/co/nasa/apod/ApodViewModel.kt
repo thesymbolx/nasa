@@ -22,6 +22,7 @@ class ApodViewModel @Inject constructor(
     private val apodRepository: ApodRepository,
     private val apodFavoritesRepository: ApodFavoritesRepository
 ) : ViewModel() {
+    private var apods = emptyList<APOD>()
 
     private val _uiState = MutableStateFlow(ApodUiState())
     val uiState = _uiState
@@ -40,43 +41,46 @@ class ApodViewModel @Inject constructor(
 
         when (val result = apodRepository.getPicturesOfTheDay(minus10Days, today)) {
             is NetworkResult.Error -> showError()
-            is NetworkResult.Success -> showPictureOfTheDay(result.data)
+            is NetworkResult.Success -> {
+                apods = result.data
+                showPictureOfTheDay(apods)
+            }
         }
     }
 
-    private fun showPictureOfTheDay(apods: List<APOD>) {
-        val todayApod = apods.lastOrNull() ?: run {
+    fun apodSelected(currentApodImageUrl: String) = showPictureOfTheDay(apods, currentApodImageUrl)
+
+    private fun showPictureOfTheDay(apods: List<APOD>, currentApodImageUrl: String? = null) {
+        val currentApod = apods.firstOrNull { it.url == currentApodImageUrl } ?: apods.lastOrNull()
+
+        currentApod ?: run {
             _uiState.update {
                 it.copy(isError = true, isLoading = false)
             }
             return
         }
 
-        val apodNewestFirst = apods.reversed().drop(1)
+        val apodNewestFirst = apods
+            .reversed()
+            .filter { it.url != currentApod.url }
 
-        if (uiState.value.todayApod?.imageUrl != todayApod.url) {
-            _uiState.update {
-                it.copy(
-                    todayApod = ApodStateItem(
-                        imageUrl = todayApod.url,
-                        title = todayApod.title,
-                        description = todayApod.description,
-                        favorite = todayApod.favorite
-                    ),
-                    historicApod = apodNewestFirst.map { historicApod ->
-                        ApodStateItem(
-                            imageUrl = historicApod.url,
-                            title = historicApod.title,
-                            description = historicApod.description,
-                            favorite = historicApod.favorite
-                        )
-                    }.toImmutableList()
-                )
-            }
-        } else {
-            _uiState.update {
-                it.copy(isError = true, isLoading = false)
-            }
+        _uiState.update {
+            it.copy(
+                todayApod = ApodStateItem(
+                    imageUrl = currentApod.url,
+                    title = currentApod.title,
+                    description = currentApod.description,
+                    favorite = currentApod.favorite
+                ),
+                historicApod = apodNewestFirst.map { historicApod ->
+                    ApodStateItem(
+                        imageUrl = historicApod.url,
+                        title = historicApod.title,
+                        description = historicApod.description,
+                        favorite = historicApod.favorite
+                    )
+                }.toImmutableList()
+            )
         }
     }
 

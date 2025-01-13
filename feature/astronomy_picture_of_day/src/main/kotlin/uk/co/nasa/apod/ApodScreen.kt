@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.LoadingScreen
 import uk.co.nasa.ui.ShareHeader
@@ -51,7 +53,12 @@ fun ApodScreen(
                 todayApod = todayApod,
                 historicApod = uiState.historicApod,
                 imageLoaded = viewModel::contentLoaded,
-                imageSelected = imageSelected,
+                imageSelected = { imageUrl: String,
+                    title: String,
+                    description: String,
+                    favorite: Boolean ->
+                    viewModel.apodSelected(imageUrl)
+                },
                 onFavoriteClick = viewModel::saveFavorite
             )
 
@@ -75,6 +82,7 @@ fun ApodScreen(
     onFavoriteClick: (imageUrl: String, isSelected: Boolean) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     Column(
         Modifier.verticalScroll(scrollState)
@@ -82,7 +90,12 @@ fun ApodScreen(
         ParallaxImage(
             imageUrl = todayApod.imageUrl,
             scrollState = scrollState,
-            imageLoaded = imageLoaded
+            imageLoaded = {
+                scope.launch {
+                    scrollState.animateScrollTo(0)
+                    imageLoaded()
+                }
+            }
         )
 
         Column(
