@@ -1,19 +1,14 @@
 package uk.co.nasa.ui.mediaResources
 
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
 import uk.co.nasa.ui.modifiers.parallaxLayoutModifier
 
 @Composable
@@ -22,35 +17,52 @@ fun ParallaxVideo(
     scrollState: ScrollState,
     videoLoaded: () -> Unit
 ) {
-    val context = LocalContext.current
-    val exoPlayer = remember(context) { ExoPlayer.Builder(context).build() }
-    val playerListener = object : Player.Listener {
-        override fun onIsLoadingChanged(isLoading: Boolean) {
-            super.onIsLoadingChanged(isLoading)
-            if (!isLoading) videoLoaded()
-        }
-    }
-
-    DisposableEffect(videoUrl) {
-        val mediaItem = MediaItem.fromUri(videoUrl)
-        exoPlayer.setMediaItem(mediaItem)
-        exoPlayer.prepare()
-        exoPlayer.addListener(playerListener)
-
-        onDispose {
-            exoPlayer.release()
-            exoPlayer.removeListener(playerListener)
-        }
-    }
+    val iframeHtml = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: black;
+                overflow: hidden;
+            }
+            iframe {
+                display: block;
+                border: none;
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+        </head>
+        <body>
+            <iframe 
+                src="${videoUrl}?autoplay=0&controls=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </body>
+        </html>
+    """
 
     AndroidView(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
+            .aspectRatio(16f / 9f)
             .parallaxLayoutModifier(scrollState, 2),
         factory = {
-            PlayerView(context).apply {
-                player = exoPlayer
+            WebView(it).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+
+                settings.loadWithOverviewMode = true
+                settings.useWideViewPort = true
+                settings.javaScriptEnabled = true
+                webChromeClient = WebChromeClient()
+                loadData(iframeHtml, "text/html", "UTF-8")
             }
         }
     )

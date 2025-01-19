@@ -62,7 +62,6 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.animation)
-    implementation(libs.bundles.exoplayer)
     implementation(project(":core:ui"))
     implementation(libs.androidx.graphics.shapes.android)
     debugImplementation(libs.ui.tooling)

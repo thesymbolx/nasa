@@ -13,10 +13,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,15 +22,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -142,41 +134,6 @@ internal fun ApodScreen(
             }
         }
     }
-}
-
-@Composable
-private fun VideoPlayer(
-    videoUrl: String,
-    videoLoaded: () -> Unit
-) {
-    val context = LocalContext.current
-    val exoPlayer = remember(context) { ExoPlayer.Builder(context).build() }
-    val playerListener = object : Player.Listener {
-        override fun onIsLoadingChanged(isLoading: Boolean) {
-            super.onIsLoadingChanged(isLoading)
-            if (!isLoading) videoLoaded()
-        }
-    }
-
-    DisposableEffect(videoUrl) {
-        val mediaItem = MediaItem.fromUri(videoUrl)
-        exoPlayer.setMediaItem(mediaItem)
-        exoPlayer.prepare()
-        exoPlayer.addListener(playerListener)
-
-        onDispose {
-            exoPlayer.release()
-            exoPlayer.removeListener(playerListener)
-        }
-    }
-
-    AndroidView(
-        factory = {
-            PlayerView(context).apply {
-                player = exoPlayer
-            }
-        }
-    )
 }
 
 @Composable
