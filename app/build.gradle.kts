@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.coil)
+    implementation(project(":feature:historic_astronomy_pictures_of_day"))
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)

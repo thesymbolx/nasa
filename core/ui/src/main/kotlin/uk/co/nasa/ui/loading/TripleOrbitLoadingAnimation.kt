@@ -1,4 +1,4 @@
-package uk.co.nasa.ui
+package uk.co.nasa.ui.loading
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable

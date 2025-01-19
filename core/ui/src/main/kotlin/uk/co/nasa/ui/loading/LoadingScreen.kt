@@ -1,4 +1,4 @@
-package uk.co.nasa.ui
+package uk.co.nasa.ui.loading
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

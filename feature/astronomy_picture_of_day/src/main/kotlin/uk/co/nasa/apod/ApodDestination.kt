@@ -5,10 +5,10 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-object APODRoute
+object ApodRoute
 
 fun NavGraphBuilder.apodDestination() {
-    composable<APODRoute> {
+    composable<ApodRoute> {
         ApodScreen()
     }
 }

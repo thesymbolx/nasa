@@ -1,4 +1,4 @@
-package uk.co.nasa.ui.images
+package uk.co.nasa.ui.mediaResources
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
-import uk.co.nasa.ui.parallaxLayoutModifier
+import uk.co.nasa.ui.modifiers.parallaxLayoutModifier
 
 @Composable
 fun ParallaxImage(

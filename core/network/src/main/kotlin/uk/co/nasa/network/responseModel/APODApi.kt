@@ -10,8 +10,17 @@ data class APODApi (
     val explanation: String,
     @SerialName("hdurl")
     val hdUrl: String? = null,
-    val mediaType: String? = null,
+    @SerialName("media_type")
+    val mediaType: MediaType,
     val serviceVersion: String? = null,
     val title: String,
     val url: String
 )
+
+@Serializable
+enum class MediaType {
+    @SerialName("video")
+    VIDEO,
+    @SerialName("image")
+    IMAGE
+}

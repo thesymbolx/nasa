@@ -18,7 +18,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class ApodViewModel @Inject constructor(
+internal class ApodViewModel @Inject constructor(
     private val apodRepository: ApodRepository,
     private val apodFavoritesRepository: ApodFavoritesRepository
 ) : ViewModel() {
@@ -70,14 +70,16 @@ class ApodViewModel @Inject constructor(
                     imageUrl = currentApod.url,
                     title = currentApod.title,
                     description = currentApod.description,
-                    favorite = currentApod.favorite
+                    favorite = currentApod.favorite,
+                    mediaType = currentApod.mediaType
                 ),
                 historicApod = apodNewestFirst.map { historicApod ->
                     ApodStateItem(
                         imageUrl = historicApod.url,
                         title = historicApod.title,
                         description = historicApod.description,
-                        favorite = historicApod.favorite
+                        favorite = historicApod.favorite,
+                        mediaType = currentApod.mediaType
                     )
                 }.toImmutableList()
             )
@@ -89,7 +91,6 @@ class ApodViewModel @Inject constructor(
             apodFavoritesRepository.saveFavorites(imageUrl)
         else
             apodFavoritesRepository.removeFavorite(imageUrl)
-
 
         _uiState.update {
             it.copy(

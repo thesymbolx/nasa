@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "uk.co.nasa.apod"
+    namespace = "uk.co.nasa.historic_astronomy_pictures_of_day"
     compileSdk = 34
 
     defaultConfig {
@@ -62,7 +62,9 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.animation)
-    implementation(libs.bundles.exoplayer)
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.4.1")
+    implementation("androidx.media3:media3-ui:1.4.1")
     implementation(project(":core:ui"))
     implementation(libs.androidx.graphics.shapes.android)
     debugImplementation(libs.ui.tooling)

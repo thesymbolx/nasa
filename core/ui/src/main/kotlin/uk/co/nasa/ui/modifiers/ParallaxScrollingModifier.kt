@@ -1,4 +1,4 @@
-package uk.co.nasa.ui
+package uk.co.nasa.ui.modifiers
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.Modifier
