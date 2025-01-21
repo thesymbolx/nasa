@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import uk.co.nasa.apod.ApodRoute
+import uk.co.nasa.favorite_images.FavoriteImagesRoute
 import uk.co.nasa.historic_apod.HistoricApodRoute
 
 @Composable
@@ -48,7 +49,7 @@ class NasaAppState(
         when (topLevelDestination.route) {
             is ApodRoute -> navController.navigate(ApodRoute, topLevelNavOptions)
             is HistoricApodRoute -> navController.navigate(HistoricApodRoute, topLevelNavOptions)
-            is TAB3 -> navController.navigate(TAB3, topLevelNavOptions)
+            is FavoriteImagesRoute -> navController.navigate(FavoriteImagesRoute, topLevelNavOptions)
         }
     }
 }
@@ -58,5 +59,5 @@ data class TopLevelRoute<T : Any>(val route: T, val icon: ImageVector)
 val TOP_LEVEL_ROUTES = listOf(
     TopLevelRoute(route = ApodRoute, icon = Icons.Default.Home),
     TopLevelRoute(route = HistoricApodRoute, icon = Icons.Filled.Favorite),
-    TopLevelRoute(route = TAB3, icon = Icons.Filled.Favorite)
+    TopLevelRoute(route = FavoriteImagesRoute, icon = Icons.Filled.Favorite)
 )

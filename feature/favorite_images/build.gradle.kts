@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     id("kotlinx-serialization")
@@ -7,20 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "uk.co.nasa"
+    namespace = "uk.co.nasa.favorite_images"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "uk.co.nasa"
         minSdk = 31
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -45,41 +39,36 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
+    implementation(project(":data:astronomy_pictures"))
+    implementation(project(":core:network"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    implementation(project(":feature:astronomy_picture_of_day"))
-    implementation(project(":core:designsystem"))
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.coil)
+    implementation(libs.coil.gif)
+    implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.bundles.coil)
-    implementation(project(":feature:historic_astronomy_pictures_of_day"))
-    implementation(project(":feature:favorite_images"))
+    implementation(libs.androidx.animation)
+    implementation(project(":core:ui"))
+    implementation(libs.androidx.graphics.shapes.android)
+    implementation(project(":core:database"))
+    debugImplementation(libs.ui.tooling)
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
