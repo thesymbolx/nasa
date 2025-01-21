@@ -30,8 +30,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import uk.co.nasa.network.responseModel.MediaType
 import uk.co.nasa.ui.ErrorScreen
-import uk.co.nasa.ui.loading.LoadingScreen
 import uk.co.nasa.ui.ShareHeader
+import uk.co.nasa.ui.loading.LoadingScreen
 import uk.co.nasa.ui.mediaResources.ParallaxImage
 import uk.co.nasa.ui.mediaResources.ParallaxVideo
 
