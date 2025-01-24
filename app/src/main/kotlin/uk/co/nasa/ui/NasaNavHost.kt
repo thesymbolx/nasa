@@ -1,6 +1,8 @@
 package uk.co.nasa.ui
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import uk.co.nasa.apod.ApodRoute
@@ -14,7 +16,8 @@ fun NasaNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ApodRoute
+        startDestination = ApodRoute,
+        modifier = Modifier.fillMaxSize()
     ) {
         apodDestination()
         historicApodDestination()
