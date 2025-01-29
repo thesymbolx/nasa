@@ -73,7 +73,7 @@ internal fun ApodScreen(
     ) {
         if (todayApod.mediaType == MediaType.IMAGE) {
             ParallaxImage(
-                imageUrl = todayApod.imageUrl,
+                imageUrl = todayApod.apodUrl,
                 scrollState = scrollState,
                 imageLoaded = {
                     scope.launch {
@@ -84,7 +84,7 @@ internal fun ApodScreen(
             )
         } else {
             ParallaxVideo(
-                videoUrl = todayApod.imageUrl,
+                videoUrl = todayApod.apodUrl,
                 scrollState = scrollState,
                 videoLoaded = {
                     scope.launch {
@@ -109,7 +109,7 @@ internal fun ApodScreen(
                 title = todayApod.title,
                 favoriteSelected = todayApod.favorite,
                 onFavoriteClick = { isSelected ->
-                    onFavoriteClick(todayApod.imageUrl, isSelected)
+                    onFavoriteClick(todayApod.apodUrl, isSelected)
                 }
             )
 
@@ -127,7 +127,7 @@ internal fun ApodScreen(
 
             historicApod.forEach { item ->
                 HistoricApod(
-                    imageUrl = item.imageUrl,
+                    imageUrl = item.apodUrl,
                     title = item.title,
                     imageSelected = imageSelected
                 )

@@ -67,7 +67,7 @@ internal class ApodViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 todayApod = ApodStateItem(
-                    imageUrl = currentApod.url,
+                    apodUrl = currentApod.url,
                     title = currentApod.title,
                     description = currentApod.description,
                     favorite = currentApod.favorite,
@@ -75,7 +75,7 @@ internal class ApodViewModel @Inject constructor(
                 ),
                 historicApod = apodNewestFirst.map { historicApod ->
                     ApodStateItem(
-                        imageUrl = historicApod.url,
+                        apodUrl = historicApod.url,
                         title = historicApod.title,
                         description = historicApod.description,
                         favorite = historicApod.favorite,

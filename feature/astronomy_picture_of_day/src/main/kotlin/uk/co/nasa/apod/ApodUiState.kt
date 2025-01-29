@@ -12,7 +12,7 @@ internal data class ApodUiState(
 )
 
 internal data class ApodStateItem(
-    val imageUrl: String,
+    val apodUrl: String,
     val title: String,
     val description: String,
     val favorite: Boolean,
