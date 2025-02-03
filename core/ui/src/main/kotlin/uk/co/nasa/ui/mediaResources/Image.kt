@@ -1,6 +1,7 @@
 package uk.co.nasa.ui.mediaResources
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +23,14 @@ import coil3.compose.SubcomposeAsyncImage
 @Composable
 fun NasaAsyncImage(
     imageUrl: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     SubcomposeAsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .clickable(onClick = onClick)
             .then(modifier),
         model = imageUrl,
         error = {

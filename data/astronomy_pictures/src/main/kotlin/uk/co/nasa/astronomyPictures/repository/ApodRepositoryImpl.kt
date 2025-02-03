@@ -22,8 +22,8 @@ internal class ApodRepositoryImpl @Inject constructor(
 
         val apodResult = apodRemoteDataSource.getPictureOfTheDay(
             date = null,
-            startDate = startDate.toString().takeIf { startDate != null },
-            endDate = endDate.toString().takeIf { endDate != null },
+            startDate = startDate?.toString(),
+            endDate = endDate?.toString(),
             count = null,
             thumbs = null
         )

@@ -54,10 +54,7 @@ internal class ApodViewModel @Inject constructor(
         val currentApod = apods.firstOrNull { it.url == currentApodImageUrl } ?: apods.lastOrNull()
 
         currentApod ?: run {
-            _uiState.update {
-                it.copy(isError = true, isLoading = false)
-            }
-            return
+            showError(); return
         }
 
         val apodNewestFirst = apods
@@ -79,7 +76,7 @@ internal class ApodViewModel @Inject constructor(
                         title = historicApod.title,
                         description = historicApod.description,
                         favorite = historicApod.favorite,
-                        mediaType = currentApod.mediaType
+                        mediaType = historicApod.mediaType
                     )
                 }.toImmutableList()
             )

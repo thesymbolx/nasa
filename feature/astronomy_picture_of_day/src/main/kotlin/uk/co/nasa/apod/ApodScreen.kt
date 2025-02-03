@@ -1,19 +1,27 @@
 package uk.co.nasa.apod
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -25,19 +33,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import uk.co.nasa.network.responseModel.MediaType
 import uk.co.nasa.ui.ErrorScreen
-import uk.co.nasa.ui.ShareHeader
 import uk.co.nasa.ui.loading.LoadingScreen
 import uk.co.nasa.ui.mediaResources.ParallaxImage
 import uk.co.nasa.ui.mediaResources.ParallaxVideo
+import uk.co.nasa.ui.mediaResources.Video
 
 @Composable
 internal fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val todayApod = uiState.todayApod
 
     //Overlay the loading screen on the content to allow preloading of the image to avoid jank.
@@ -68,32 +77,19 @@ internal fun ApodScreen(
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
 
-    Column(
-        Modifier.verticalScroll(scrollState)
-    ) {
-        if (todayApod.mediaType == MediaType.IMAGE) {
-            ParallaxImage(
-                imageUrl = todayApod.apodUrl,
-                scrollState = scrollState,
-                imageLoaded = {
-                    scope.launch {
-                        scrollState.animateScrollTo(0)
-                        imageLoaded()
-                    }
+    Column(Modifier.verticalScroll(scrollState)) {
+
+        ApodHeader(
+            apodUrl = todayApod.apodUrl,
+            mediaType = todayApod.mediaType,
+            scrollState = scrollState,
+            apodLoaded = {
+                scope.launch {
+                    scrollState.animateScrollTo(0)
+                    imageLoaded()
                 }
-            )
-        } else {
-            ParallaxVideo(
-                videoUrl = todayApod.apodUrl,
-                scrollState = scrollState,
-                videoLoaded = {
-                    scope.launch {
-                        scrollState.animateScrollTo(0)
-                        imageLoaded()
-                    }
-                }
-            )
-        }
+            }
+        )
 
         Column(
             modifier = Modifier.drawBehind {
@@ -108,6 +104,7 @@ internal fun ApodScreen(
             ShareHeader(
                 title = todayApod.title,
                 favoriteSelected = todayApod.favorite,
+                favoriteVisible = todayApod.mediaType == MediaType.IMAGE,
                 onFavoriteClick = { isSelected ->
                     onFavoriteClick(todayApod.apodUrl, isSelected)
                 }
@@ -127,9 +124,10 @@ internal fun ApodScreen(
 
             historicApod.forEach { item ->
                 HistoricApod(
-                    imageUrl = item.apodUrl,
+                    apodUrl = item.apodUrl,
                     title = item.title,
-                    imageSelected = imageSelected
+                    isImage = item.mediaType == MediaType.IMAGE,
+                    apodSelected = imageSelected
                 )
             }
         }
@@ -137,10 +135,33 @@ internal fun ApodScreen(
 }
 
 @Composable
+private fun ApodHeader(
+    apodUrl: String,
+    mediaType: MediaType,
+    scrollState: ScrollState,
+    apodLoaded: () -> Unit
+) {
+    if (mediaType == MediaType.IMAGE) {
+        ParallaxImage(
+            imageUrl = apodUrl,
+            scrollState = scrollState,
+            imageLoaded = apodLoaded
+        )
+    } else {
+        ParallaxVideo(
+            videoUrl = apodUrl,
+            scrollState = scrollState,
+            videoLoaded = apodLoaded
+        )
+    }
+}
+
+@Composable
 private fun HistoricApod(
-    imageUrl: String,
+    apodUrl: String,
     title: String,
-    imageSelected: (imageUrl: String) -> Unit
+    isImage: Boolean,
+    apodSelected: (imageUrl: String) -> Unit
 ) {
     Card(
         modifier = Modifier.padding(
@@ -152,18 +173,28 @@ private fun HistoricApod(
             modifier = Modifier
                 .height(90.dp)
                 .clickable {
-                    imageSelected(imageUrl)
+                    apodSelected(apodUrl)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(0.33f),
-                model = imageUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
+            if (isImage) {
+                SubcomposeAsyncImage(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(0.33f),
+                    model = apodUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Video(
+                    videoUrl = apodUrl,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(0.33f),
+                    videoLoaded = { }
+                )
+            }
 
             Text(
                 modifier = Modifier
@@ -174,6 +205,50 @@ private fun HistoricApod(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+        }
+    }
+}
+
+@Composable
+private fun ShareHeader(
+    title: String,
+    favoriteVisible: Boolean = true,
+    favoriteSelected: Boolean,
+    onFavoriteClick: (isSelected: Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp
+            )
+    ) {
+        Text(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f)
+                .padding(end = 8.dp),
+            text = title,
+            color = Color.White,
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        if (favoriteVisible) {
+            IconButton(
+                modifier = Modifier
+                    .padding(end = 4.dp),
+                onClick = {
+                    onFavoriteClick(!favoriteSelected)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(28.dp),
+                    imageVector = if (favoriteSelected) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }

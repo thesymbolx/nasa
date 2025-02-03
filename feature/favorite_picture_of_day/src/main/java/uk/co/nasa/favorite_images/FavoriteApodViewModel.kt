@@ -14,16 +14,16 @@ import uk.co.nasa.astronomyPictures.repository.ApodFavoritesRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteImagesViewModel @Inject constructor(
+class FavoriteApodViewModel @Inject constructor(
     private val apodFavoritesRepository: ApodFavoritesRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(FavoriteUIState())
+    private val _uiState = MutableStateFlow(FavoriteApodUIState())
     val uiState = _uiState
         .onStart { getFavorites() }
         .stateIn(
             viewModelScope,
             started = WhileSubscribed(5_000),
-            initialValue = FavoriteUIState()
+            initialValue = FavoriteApodUIState()
         )
 
     private suspend fun getFavorites() {
@@ -33,7 +33,7 @@ class FavoriteImagesViewModel @Inject constructor(
                 .toPersistentList()
 
         _uiState.update {
-            FavoriteUIState(favorites)
+            FavoriteApodUIState(favorites)
         }
     }
 }

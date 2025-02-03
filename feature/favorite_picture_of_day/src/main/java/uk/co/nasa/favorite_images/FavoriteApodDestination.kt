@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 object FavoriteImagesRoute
 
-fun NavGraphBuilder.favoriteImagesDestination() {
+fun NavGraphBuilder.favoriteApodDestination() {
     composable<FavoriteImagesRoute> {
-        FavoriteImagesScreen()
+        FavoriteApodScreen()
     }
 }

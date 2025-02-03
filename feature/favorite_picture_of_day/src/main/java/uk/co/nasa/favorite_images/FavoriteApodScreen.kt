@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package uk.co.nasa.favorite_images
 
 import androidx.compose.animation.AnimatedContent
@@ -29,14 +31,13 @@ import kotlinx.collections.immutable.ImmutableList
 import uk.co.nasa.ui.mediaResources.NasaAsyncImage
 
 @Composable
-fun FavoriteImagesScreen(favoriteImagesViewModel: FavoriteImagesViewModel = hiltViewModel()) {
-    val uiState by favoriteImagesViewModel.uiState.collectAsState()
-    FavoriteImagesScreen(uiState)
+fun FavoriteApodScreen(favoriteApodViewModel: FavoriteApodViewModel = hiltViewModel()) {
+    val uiState by favoriteApodViewModel.uiState.collectAsState()
+    FavoriteApodScreen(uiState)
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun FavoriteImagesScreen(favoriteUIState: FavoriteUIState) {
+fun FavoriteApodScreen(favoriteApodUIState: FavoriteApodUIState) {
     var fullScreenImageUrl: String by remember {
         mutableStateOf("")
     }
@@ -51,7 +52,7 @@ fun FavoriteImagesScreen(favoriteUIState: FavoriteUIState) {
         ) { targetState ->
             if (targetState.isEmpty()) {
                 Thumbnails(
-                    favoriteUIState.imageUrls,
+                    favoriteApodUIState.imageUrls,
                     animatedVisibilityScope = this@AnimatedContent
                 ) { imageUrl ->
                     fullScreenImageUrl = imageUrl
@@ -66,15 +67,14 @@ fun FavoriteImagesScreen(favoriteUIState: FavoriteUIState) {
                         modifier = Modifier.sharedElement(
                             rememberSharedContentState(key = fullScreenImageUrl),
                             animatedVisibilityScope = this@AnimatedContent
-                        ).clickable { fullScreenImageUrl = "" }
-                    )
+                        )
+                    ) { fullScreenImageUrl = "" }
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 private fun SharedTransitionScope.Thumbnails(
     imageUrls: ImmutableList<String>,
@@ -96,10 +96,9 @@ private fun SharedTransitionScope.Thumbnails(
                         rememberSharedContentState(key = imageUrl),
                         animatedVisibilityScope = animatedVisibilityScope
                     )
-                    .clickable {
-                        imageClicked(imageUrl)
-                    }
-            )
+            ) {
+                imageClicked(imageUrl)
+            }
         }
     }
 }

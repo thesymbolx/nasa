@@ -72,7 +72,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.coil)
     implementation(project(":feature:historic_astronomy_pictures_of_day"))
-    implementation(project(":feature:favorite_images"))
+    implementation(project(":feature:favorite_picture_of_day"))
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
     testImplementation(libs.junit)
