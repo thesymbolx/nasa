@@ -31,12 +31,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.SubcomposeAsyncImage
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
+import uk.co.nasa.designsystem.theme.NasaTheme
 import uk.co.nasa.network.responseModel.MediaType
 import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.loading.LoadingScreen
@@ -78,7 +81,7 @@ internal fun ApodScreen(
     val scope = rememberCoroutineScope()
 
     Column(Modifier.verticalScroll(scrollState)) {
-        
+
         ApodHeader(
             apodUrl = todayApod.apodUrl,
             mediaType = todayApod.mediaType,
@@ -265,5 +268,54 @@ private fun ShareHeader(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ApodScreenPreview() {
+    NasaTheme {
+        ApodScreen(
+            todayApod = ApodStateItem(
+                apodUrl = "",
+                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean velit metus, cursus a tellus quis, tincidunt tempor leo. Curabitur sodales pretium elit, in facilisis odio dignissim quis. Praesent consectetur in neque ut gravida. Quisque ac tristique nibh, suscipit vestibulum lacus. Vivamus porta eu felis non ornare. Vivamus eget ultrices est.",
+                favorite = true,
+                mediaType = MediaType.IMAGE
+            ),
+            historicApod = persistentListOf(
+                ApodStateItem(
+                    apodUrl = "",
+                    title = "Lorem ipsum dolor sit amet, consectetur.",
+                    description = "description",
+                    favorite = true,
+                    mediaType = MediaType.IMAGE
+                ),
+                ApodStateItem(
+                    apodUrl = "",
+                    title = "Lorem ipsum dolor sit amet, consectetur.",
+                    description = "description",
+                    favorite = true,
+                    mediaType = MediaType.IMAGE
+                ),
+                ApodStateItem(
+                    apodUrl = "",
+                    title = "Lorem ipsum dolor sit amet, consectetur.",
+                    description = "description",
+                    favorite = true,
+                    mediaType = MediaType.IMAGE
+                ),
+                ApodStateItem(
+                    apodUrl = "",
+                    title = "Lorem ipsum dolor sit amet, consectetur.",
+                    description = "description",
+                    favorite = true,
+                    mediaType = MediaType.IMAGE
+                )
+            ),
+            imageLoaded = {},
+            imageSelected = {},
+            onFavoriteClick = { _, _ -> }
+        )
     }
 }

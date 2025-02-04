@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.animation)
     implementation(project(":core:ui"))
     implementation(libs.androidx.graphics.shapes.android)
+    implementation(project(":core:designsystem"))
     debugImplementation(libs.ui.tooling)
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
