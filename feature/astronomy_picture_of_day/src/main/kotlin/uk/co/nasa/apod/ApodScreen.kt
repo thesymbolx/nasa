@@ -78,7 +78,7 @@ internal fun ApodScreen(
     val scope = rememberCoroutineScope()
 
     Column(Modifier.verticalScroll(scrollState)) {
-
+        
         ApodHeader(
             apodUrl = todayApod.apodUrl,
             mediaType = todayApod.mediaType,
@@ -91,46 +91,12 @@ internal fun ApodScreen(
             }
         )
 
-        Column(
-            modifier = Modifier.drawBehind {
-                val gradientBrush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.Black),
-                    startY = 0f,
-                    endY = size.height * 0.1f
-                )
-                drawRect(brush = gradientBrush)
-            }
-        ) {
-            ShareHeader(
-                title = todayApod.title,
-                favoriteSelected = todayApod.favorite,
-                favoriteVisible = todayApod.mediaType == MediaType.IMAGE,
-                onFavoriteClick = { isSelected ->
-                    onFavoriteClick(todayApod.apodUrl, isSelected)
-                }
-            )
-
-            Text(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 24.dp,
-                    bottom = 16.dp
-                ),
-                text = todayApod.description,
-                color = Color.White,
-                style = MaterialTheme.typography.bodyLarge
-            )
-
-            historicApod.forEach { item ->
-                HistoricApod(
-                    apodUrl = item.apodUrl,
-                    title = item.title,
-                    isImage = item.mediaType == MediaType.IMAGE,
-                    apodSelected = imageSelected
-                )
-            }
-        }
+        ApodBody(
+            todayApod = todayApod,
+            historicApod = historicApod,
+            imageSelected = imageSelected,
+            onFavoriteClick = onFavoriteClick
+        )
     }
 }
 
@@ -153,6 +119,55 @@ private fun ApodHeader(
             scrollState = scrollState,
             videoLoaded = apodLoaded
         )
+    }
+}
+
+@Composable
+private fun ApodBody(
+    todayApod: ApodStateItem,
+    historicApod: ImmutableList<ApodStateItem>,
+    imageSelected: (imageUrl: String) -> Unit,
+    onFavoriteClick: (imageUrl: String, isSelected: Boolean) -> Unit
+) {
+    Column(
+        modifier = Modifier.drawBehind {
+            val gradientBrush = Brush.verticalGradient(
+                colors = listOf(Color.Transparent, Color.Black),
+                startY = 0f,
+                endY = size.height * 0.1f
+            )
+            drawRect(brush = gradientBrush)
+        }
+    ) {
+        ShareHeader(
+            title = todayApod.title,
+            favoriteSelected = todayApod.favorite,
+            favoriteVisible = todayApod.mediaType == MediaType.IMAGE,
+            onFavoriteClick = { isSelected ->
+                onFavoriteClick(todayApod.apodUrl, isSelected)
+            }
+        )
+
+        Text(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 24.dp,
+                bottom = 16.dp
+            ),
+            text = todayApod.description,
+            color = Color.White,
+            style = MaterialTheme.typography.bodyLarge
+        )
+
+        historicApod.forEach { item ->
+            HistoricApod(
+                apodUrl = item.apodUrl,
+                title = item.title,
+                isImage = item.mediaType == MediaType.IMAGE,
+                apodSelected = imageSelected
+            )
+        }
     }
 }
 

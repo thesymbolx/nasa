@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -57,7 +58,7 @@ class NasaAppState(
 data class TopLevelRoute<T : Any>(val route: T, val icon: ImageVector)
 
 val TOP_LEVEL_ROUTES = listOf(
-    TopLevelRoute(route = ApodRoute, icon = Icons.Default.Home),
+    TopLevelRoute(route = ApodRoute, icon = Icons.Filled.Favorite),
     TopLevelRoute(route = HistoricApodRoute, icon = Icons.Filled.Favorite),
     TopLevelRoute(route = FavoriteImagesRoute, icon = Icons.Filled.Favorite)
 )

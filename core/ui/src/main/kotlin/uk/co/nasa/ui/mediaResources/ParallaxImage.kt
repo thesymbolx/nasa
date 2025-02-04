@@ -13,8 +13,12 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -32,11 +36,22 @@ fun ParallaxImage(
     modifier: Modifier = Modifier,
     imageLoaded: () -> Unit = {}
 ) {
+    val imageAlpha by remember {
+        derivedStateOf {
+            val maxValue = scrollState.maxValue.toFloat()
+            val scroll = scrollState.value.toFloat()
+            val scrollMultiplier = 3
+            val alpha = 1f - (scroll * scrollMultiplier / maxValue)
+            minOf(alpha, 1f)
+        }
+    }
+
     SubcomposeAsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .parallaxLayoutModifier(scrollState, 2)
+            .alpha(imageAlpha)
             .drawWithContent {
                 drawContent()
                 drawRect(
