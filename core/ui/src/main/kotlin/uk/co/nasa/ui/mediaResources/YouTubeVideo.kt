@@ -5,8 +5,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -21,7 +19,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import uk.co.nasa.ui.loading.TripleOrbitLoadingAnimation
 
 @Composable
-fun Video(
+fun YouTubeVideo(
     videoUrl: String,
     modifier: Modifier = Modifier,
     videoLoaded: () -> Unit

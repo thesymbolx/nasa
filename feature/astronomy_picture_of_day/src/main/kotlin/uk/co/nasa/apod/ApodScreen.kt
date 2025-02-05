@@ -45,7 +45,7 @@ import uk.co.nasa.ui.ErrorScreen
 import uk.co.nasa.ui.loading.LoadingScreen
 import uk.co.nasa.ui.mediaResources.ParallaxImage
 import uk.co.nasa.ui.mediaResources.ParallaxVideo
-import uk.co.nasa.ui.mediaResources.Video
+import uk.co.nasa.ui.mediaResources.YouTubeVideo
 
 @Composable
 internal fun ApodScreen(viewModel: ApodViewModel = hiltViewModel()) {
@@ -205,7 +205,7 @@ private fun HistoricApod(
                     contentScale = ContentScale.Crop
                 )
             } else {
-                Video(
+                YouTubeVideo(
                     videoUrl = apodUrl,
                     modifier = Modifier
                         .fillMaxHeight()
