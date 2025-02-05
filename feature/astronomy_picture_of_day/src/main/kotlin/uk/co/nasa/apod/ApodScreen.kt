@@ -287,28 +287,28 @@ private fun ApodScreenPreview() {
                 ApodStateItem(
                     apodUrl = "",
                     title = "Lorem ipsum dolor sit amet, consectetur.",
-                    description = "description",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id libero consectetur, rhoncus velit sed, commodo augue. Mauris quam mi.",
                     favorite = true,
                     mediaType = MediaType.IMAGE
                 ),
                 ApodStateItem(
                     apodUrl = "",
                     title = "Lorem ipsum dolor sit amet, consectetur.",
-                    description = "description",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id libero consectetur, rhoncus velit sed, commodo augue. Mauris quam mi.",
                     favorite = true,
                     mediaType = MediaType.IMAGE
                 ),
                 ApodStateItem(
                     apodUrl = "",
                     title = "Lorem ipsum dolor sit amet, consectetur.",
-                    description = "description",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id libero consectetur, rhoncus velit sed, commodo augue. Mauris quam mi.",
                     favorite = true,
                     mediaType = MediaType.IMAGE
                 ),
                 ApodStateItem(
                     apodUrl = "",
                     title = "Lorem ipsum dolor sit amet, consectetur.",
-                    description = "description",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque id libero consectetur, rhoncus velit sed, commodo augue. Mauris quam mi.",
                     favorite = true,
                     mediaType = MediaType.IMAGE
                 )
