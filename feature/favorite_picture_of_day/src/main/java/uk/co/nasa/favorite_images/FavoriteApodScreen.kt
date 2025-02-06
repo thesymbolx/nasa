@@ -7,13 +7,13 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -38,6 +38,12 @@ fun FavoriteApodScreen(favoriteApodViewModel: FavoriteApodViewModel = hiltViewMo
 
 @Composable
 fun FavoriteApodScreen(favoriteApodUIState: FavoriteApodUIState) {
+    val gridState = LazyStaggeredGridState()
+
+    var showGallery: Boolean by remember {
+        mutableStateOf(true)
+    }
+
     var fullScreenImageUrl: String by remember {
         mutableStateOf("")
     }
@@ -47,15 +53,17 @@ fun FavoriteApodScreen(favoriteApodUIState: FavoriteApodUIState) {
     ) {
         AnimatedContent(
             modifier = Modifier.fillMaxSize(),
-            targetState = fullScreenImageUrl,
+            targetState = showGallery,
             label = "image_transition"
         ) { targetState ->
-            if (targetState.isEmpty()) {
+            if (targetState) {
                 Thumbnails(
                     favoriteApodUIState.imageUrls,
-                    animatedVisibilityScope = this@AnimatedContent
+                    animatedVisibilityScope = this@AnimatedContent,
+                    gridState
                 ) { imageUrl ->
                     fullScreenImageUrl = imageUrl
+                    showGallery = false
                 }
             } else {
                 Box(
@@ -63,12 +71,14 @@ fun FavoriteApodScreen(favoriteApodUIState: FavoriteApodUIState) {
                     contentAlignment = Alignment.Center
                 ) {
                     NasaAsyncImage(
-                        imageUrl = targetState,
+                        imageUrl = fullScreenImageUrl,
                         modifier = Modifier.sharedElement(
                             rememberSharedContentState(key = fullScreenImageUrl),
                             animatedVisibilityScope = this@AnimatedContent
                         )
-                    ) { fullScreenImageUrl = "" }
+                    ) {
+                        showGallery = true
+                    }
                 }
             }
         }
@@ -79,12 +89,14 @@ fun FavoriteApodScreen(favoriteApodUIState: FavoriteApodUIState) {
 private fun SharedTransitionScope.Thumbnails(
     imageUrls: ImmutableList<String>,
     animatedVisibilityScope: AnimatedVisibilityScope,
+    state: LazyStaggeredGridState,
     imageClicked: (String) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         contentPadding = WindowInsets.statusBars.asPaddingValues(),
         verticalItemSpacing = 4.dp,
+        state = state,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         modifier = Modifier.fillMaxSize()
     ) {

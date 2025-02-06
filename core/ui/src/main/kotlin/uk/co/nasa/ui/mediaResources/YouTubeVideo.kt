@@ -56,9 +56,10 @@ fun YouTubeVideo(
     var iFrameLoaded by remember { mutableStateOf(false) }
 
     Box(
-        contentAlignment = Alignment.Center) {
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+    ) {
         AndroidView(
-            modifier = modifier,
             factory = {
                 WebView(it).apply {
                     layoutParams = ViewGroup.LayoutParams(

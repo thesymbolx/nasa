@@ -30,7 +30,11 @@ fun NasaAsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable(onClick = onClick)
+            .clickable(
+                interactionSource = null,
+                indication = null,
+                onClick = onClick
+            )
             .then(modifier),
         model = imageUrl,
         error = {

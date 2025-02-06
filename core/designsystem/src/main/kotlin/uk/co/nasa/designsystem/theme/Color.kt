@@ -5,17 +5,16 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
 val blue400 = Color(0xFF5aaadf)
-val teal200 = Color(0xFF5adfd2)
 val purple400 = Color(0xFF8f5adf)
 val black900 = Color(0xFF212121)
 val black800 = Color(0xFF202020)
-
+val gray800 = Color(0xFF424242)
 
 val backgroundColor = Color.Black
 val onBackgroundColor = Color.White
 val primaryColor = blue400
 val onPrimaryColor = Color.White
-val secondaryColor = teal200
+val secondaryColor = gray800
 val onSecondaryColor = Color.White
 val secondaryContainerColor = Color.Black
 val onSecondaryContainerColor =  Color.White
