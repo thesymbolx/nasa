@@ -55,9 +55,9 @@ class NasaAppState(
     }
 }
 
-data class TopLevelRoute<T : Any>(val route: T, val icon: ImageVector)
+data class TopLevelRoute<T : Any>(val route: T, val icon: Int)
 
 val TOP_LEVEL_ROUTES = listOf(
-    TopLevelRoute(route = ApodRoute, icon = Icons.Filled.Favorite),
-    TopLevelRoute(route = FavoriteImagesRoute, icon = Icons.Filled.Favorite)
+    TopLevelRoute(route = ApodRoute, icon = R.drawable.planet_2),
+    TopLevelRoute(route = FavoriteImagesRoute, icon =  R.drawable.heart)
 )
