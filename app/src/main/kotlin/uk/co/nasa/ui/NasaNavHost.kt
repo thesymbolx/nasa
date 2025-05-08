@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import uk.co.nasa.apod.ApodRoute
 import uk.co.nasa.apod.apodDestination
 import uk.co.nasa.favorite_images.favoriteApodDestination
-import uk.co.nasa.historic_apod.historicApodDestination
 
 @Composable
 fun NasaNavHost(
@@ -20,7 +19,6 @@ fun NasaNavHost(
         modifier = Modifier.fillMaxSize()
     ) {
         apodDestination()
-        historicApodDestination()
         favoriteApodDestination()
     }
 }

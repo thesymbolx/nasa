@@ -22,5 +22,7 @@ enum class MediaType {
     @SerialName("video")
     VIDEO,
     @SerialName("image")
-    IMAGE
+    IMAGE,
+    @SerialName("other")
+    OTHER
 }
