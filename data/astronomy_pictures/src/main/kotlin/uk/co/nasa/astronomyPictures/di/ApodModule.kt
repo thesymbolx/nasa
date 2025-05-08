@@ -12,7 +12,7 @@ import uk.co.nasa.astronomyPictures.repository.ApodRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
-internal interface MyModule {
+internal interface ApodModule {
     @Binds
     abstract fun bindApodRepository(impl: ApodRepositoryImpl): ApodRepository
 
