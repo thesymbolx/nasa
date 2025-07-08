@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun NasaApp() {
     val navController = rememberNavController()
-    val appState = rememberNiaAppState(navController)
+    val appState = rememberAppState(navController)
 
     NasaAppBackground(modifier = Modifier) {
         Scaffold(
