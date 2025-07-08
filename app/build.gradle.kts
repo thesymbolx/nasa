@@ -53,30 +53,34 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":core:database"))
+    implementation(project(":feature:astronomy_picture_of_day"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":feature:favorite_picture_of_day"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-    implementation(project(":feature:astronomy_picture_of_day"))
-    implementation(project(":core:designsystem"))
+    implementation(libs.androidx.activity.compose)
+
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.bundles.coil)
-    implementation(project(":feature:favorite_picture_of_day"))
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
+
+    implementation(libs.bundles.coil)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
