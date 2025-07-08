@@ -1,4 +1,4 @@
-package uk.co.nasa.ui
+package uk.co.nasa
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

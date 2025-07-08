@@ -1,14 +1,8 @@
-package uk.co.nasa.ui
+package uk.co.nasa
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -17,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import uk.co.nasa.apod.ApodRoute
 import uk.co.nasa.favorite_images.FavoriteImagesRoute
+import uk.co.nasa.ui.R
 
 @Composable
 fun rememberNiaAppState(
