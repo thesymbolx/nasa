@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.11.0"
 activityCompose = "1.9.1"
 androidxHiltNavigationCompose = "1.2.0"
 androidxNavigation = "2.8.2"
@@ -8,12 +8,11 @@ coil = "3.0.0-rc01"
 composeBom = "2024.04.01"
 coreKtx = "1.13.1"
 exoplayer = "1.4.1"
-kotlin = "1.9.0"
+kotlin = "2.2.0"
 kotlinxCollectionsImmutable = "0.3.8"
 kotlinxSerializationJson = "1.6.3"
-ksp = "1.9.0-1.0.13"
-
-hilt = "2.51.1"
+ksp = "2.2.0-2.0.2"
+hilt = "2.56.2"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 lifecycleRuntimeKtx = "2.8.4"
@@ -21,7 +20,7 @@ appcompat = "1.6.1"
 material = "1.12.0"
 okhttpBom = "4.12.0"
 retrofit = "2.11.0"
-room = "2.6.1"
+room = "2.7.2"
 navigationCommonKtx = "2.8.2"
 navigationRuntimeKtx = "2.8.2"
 uiTooling = "1.7.5"
@@ -76,6 +75,8 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 
 [bundles]
 coil = ["coil", "coil-compose", "coil-gif", "coil-http", "coil-test"]

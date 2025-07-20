@@ -6,5 +6,5 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) version libs.versions.ksp.get()
-
+    alias(libs.plugins.compose.compiler) apply false
 }
