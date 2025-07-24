@@ -1,33 +1,29 @@
 [versions]
 agp = "8.11.0"
-activityCompose = "1.9.1"
+activityCompose = "1.10.1"
 androidxHiltNavigationCompose = "1.2.0"
-androidxNavigation = "2.8.2"
-animation = "1.7.5"
-coil = "3.0.0-rc01"
-composeBom = "2024.04.01"
-coreKtx = "1.13.1"
-exoplayer = "1.4.1"
-kotlin = "2.2.0"
-kotlinxCollectionsImmutable = "0.3.8"
-kotlinxSerializationJson = "1.6.3"
-ksp = "2.2.0-2.0.2"
+androidxNavigation = "2.9.1"
+animation = "1.8.3"
+appcompat = "1.7.1"
+coil = "3.2.0"
+composeBom = "2025.06.01"
+coreKtx = "1.16.0"
 hilt = "2.56.2"
+graphicsShapesAndroid = "1.0.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.4"
-appcompat = "1.6.1"
+kotlin = "2.2.0"
+kotlinxCollectionsImmutable = "0.4.0"
+kotlinxSerializationJson = "1.9.0"
+ksp = "2.2.0-2.0.2"
+lifecycleRuntimeKtx = "2.9.1"
 material = "1.12.0"
-okhttpBom = "4.12.0"
-retrofit = "2.11.0"
+navigationCommonKtx = "2.9.1"
+navigationRuntimeKtx = "2.9.1"
+okhttpBom = "5.1.0"
+retrofit = "3.0.0"
 room = "2.7.2"
-navigationCommonKtx = "2.8.2"
-navigationRuntimeKtx = "2.8.2"
-uiTooling = "1.7.5"
-graphicsShapesAndroid = "1.0.1"
-foundationAndroid = "1.7.5"
-roomRuntimeAndroid = "2.7.0-alpha12"
+uiTooling = "1.8.3"
 
 
 [libraries]
@@ -35,7 +31,8 @@ androidx-animation = { module = "androidx.compose.animation:animation", version.
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -65,8 +62,6 @@ retrofit-ktx-serialization = { group = "com.squareup.retrofit2", name = "convert
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-complier = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
-androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 androidx-graphics-shapes-android = { group = "androidx.graphics", name = "graphics-shapes-android", version.ref = "graphicsShapesAndroid" }
 

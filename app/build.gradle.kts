@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "uk.co.nasa"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "uk.co.nasa"
         minSdk = 31
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -77,7 +77,6 @@ dependencies {
     implementation(libs.hilt)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)

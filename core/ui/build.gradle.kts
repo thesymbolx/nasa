@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "uk.co.nasa.ui"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 31
@@ -48,6 +48,5 @@ dependencies {
     implementation(project(":core:designsystem"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     debugImplementation(libs.ui.tooling)
 }

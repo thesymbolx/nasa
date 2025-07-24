@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "uk.co.nasa.database"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 31
@@ -52,5 +52,4 @@ dependencies {
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
