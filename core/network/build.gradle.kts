@@ -38,13 +38,15 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+
     implementation(libs.retrofit)
     implementation(libs.retrofit.ktx.serialization)
     implementation(libs.kotlinx.serialization.json)
+
     implementation(platform(libs.okhttp.bom))
+
     ksp(libs.hilt.complier)
     implementation(libs.hilt)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
 }

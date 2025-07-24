@@ -14,7 +14,7 @@ import uk.co.nasa.favorite_images.FavoriteImagesRoute
 import uk.co.nasa.ui.R
 
 @Composable
-fun rememberNiaAppState(
+fun rememberAppState(
     navController: NavHostController = rememberNavController(),
 ): NasaAppState {
     return remember(navController) {

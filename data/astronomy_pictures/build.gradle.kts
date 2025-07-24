@@ -35,18 +35,20 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":core:database"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
+
+    implementation(libs.hilt)
     ksp(libs.hilt.complier)
 
     ksp(libs.room.complier)
     ksp(libs.room.ktx)
     ksp(libs.room.runtime)
 
-    implementation(libs.hilt)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 }
