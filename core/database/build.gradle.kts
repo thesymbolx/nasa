@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("co.uk.nasa.convention.hilt")
     id("kotlinx-serialization")
 }
 
@@ -43,9 +43,6 @@ dependencies {
     ksp(libs.room.complier)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-
-    implementation(libs.hilt)
-    ksp(libs.hilt.complier)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

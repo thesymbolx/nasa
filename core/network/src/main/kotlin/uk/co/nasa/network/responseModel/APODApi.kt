@@ -14,7 +14,7 @@ data class APODApi (
     val mediaType: MediaType,
     val serviceVersion: String? = null,
     val title: String,
-    val url: String
+    val url: String? = null
 )
 
 @Serializable

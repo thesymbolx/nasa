@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt)
     id("kotlinx-serialization")
-    alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
+    id("co.uk.nasa.convention.hilt")
 }
 
 android {
@@ -68,8 +67,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.complier)
-    implementation(libs.hilt)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

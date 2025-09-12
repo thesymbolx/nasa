@@ -1,9 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt)
+    id("co.uk.nasa.convention.hilt")
     id("kotlinx-serialization")
-    alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -67,9 +66,6 @@ dependencies {
 
     implementation(libs.bundles.coil)
     implementation(libs.coil.gif)
-
-    ksp(libs.hilt.complier)
-    implementation(libs.hilt)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

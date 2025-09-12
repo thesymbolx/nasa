@@ -2,8 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlinx-serialization")
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
+    id("co.uk.nasa.convention.hilt")
 }
 
 android {
@@ -44,9 +43,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(platform(libs.okhttp.bom))
-
-    ksp(libs.hilt.complier)
-    implementation(libs.hilt)
 
     testImplementation(libs.junit)
 }

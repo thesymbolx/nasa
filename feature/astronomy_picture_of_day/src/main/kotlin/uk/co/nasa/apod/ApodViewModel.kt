@@ -51,33 +51,40 @@ internal class ApodViewModel @Inject constructor(
     fun apodSelected(currentApodImageUrl: String) = showPictureOfTheDay(apods, currentApodImageUrl)
 
     private fun showPictureOfTheDay(apods: List<APOD>, currentApodImageUrl: String? = null) {
-        val currentApod = apods.firstOrNull { it.url == currentApodImageUrl } ?: apods.lastOrNull()
+        val apods = apods.filter { it.url != null }
 
-        currentApod ?: run {
-            showError(); return
-        }
+        val headlineApod =
+            apods.firstOrNull { it.url == currentApodImageUrl } ?:
+            apods.lastOrNull() ?:
+            run { showError(); return }
 
-        val apodNewestFirst = apods
+        val headlineApodUrl = headlineApod.url ?: return
+
+        val historicApods = apods
             .reversed()
-            .filter { it.url != currentApod.url }
+            .filter { it.url != headlineApod.url }
 
         _uiState.update {
             it.copy(
                 todayApod = ApodStateItem(
-                    apodUrl = currentApod.url,
-                    title = currentApod.title,
-                    description = currentApod.description,
-                    favorite = currentApod.favorite,
-                    mediaType = currentApod.mediaType
+                    apodUrl = headlineApodUrl,
+                    title = headlineApod.title,
+                    description = headlineApod.description,
+                    favorite = headlineApod.favorite,
+                    mediaType = headlineApod.mediaType
                 ),
-                historicApod = apodNewestFirst.map { historicApod ->
-                    ApodStateItem(
-                        apodUrl = historicApod.url,
-                        title = historicApod.title,
-                        description = historicApod.description,
-                        favorite = historicApod.favorite,
-                        mediaType = historicApod.mediaType
-                    )
+                historicApod = historicApods.mapNotNull { historicApod ->
+                    val historicApodUrl = historicApod.url
+
+                    if (historicApodUrl != null)
+                        ApodStateItem(
+                            apodUrl = historicApodUrl,
+                            title = historicApod.title,
+                            description = historicApod.description,
+                            favorite = historicApod.favorite,
+                            mediaType = historicApod.mediaType
+                        )
+                    else null
                 }.toImmutableList()
             )
         }

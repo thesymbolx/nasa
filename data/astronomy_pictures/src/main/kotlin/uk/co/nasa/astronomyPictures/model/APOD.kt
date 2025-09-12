@@ -7,7 +7,7 @@ import uk.co.nasa.network.responseModel.MediaType
 data class APOD (
     val description: String,
     val title: String,
-    val url: String,
+    val url: String?,
     val favorite: Boolean,
     val mediaType: MediaType
 )

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt)
+    id("co.uk.nasa.convention.hilt")
     alias(libs.plugins.ksp)
 }
 
@@ -41,9 +41,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-
-    implementation(libs.hilt)
-    ksp(libs.hilt.complier)
 
     ksp(libs.room.complier)
     ksp(libs.room.ktx)
