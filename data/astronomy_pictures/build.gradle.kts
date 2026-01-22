@@ -1,16 +1,16 @@
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("uk.co.nasa.convention.library")
     id("co.uk.nasa.convention.hilt")
     alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "uk.co.nasa.astronomyPictures"
-    compileSdk = 36
+
 
     defaultConfig {
-        minSdk = 31
+   
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

@@ -1,17 +1,13 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id("uk.co.nasa.convention.library")
     id("co.uk.nasa.convention.hilt")
-    id("kotlinx-serialization")
     alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "uk.co.nasa.apod"
-    compileSdk = 36
 
     defaultConfig {
-        minSdk = 31
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

@@ -28,9 +28,14 @@ gradlePlugin {
             id = "co.uk.nasa.convention.application"
             implementationClass = "uk.co.nasa.convention.AndroidApplicationConventionPlugin"
         }
+        create("androidLibrary") {
+            id = "uk.co.nasa.convention.library"
+            implementationClass = "uk.co.nasa.convention.AndroidLibraryConventionPlugin"
+        }
         create("hilt") {
             id = "co.uk.nasa.convention.hilt"
             implementationClass = "uk.co.nasa.convention.HiltConventionPlugin"
         }
+
     }
 }
